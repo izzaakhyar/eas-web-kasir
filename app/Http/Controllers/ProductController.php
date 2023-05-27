@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -14,7 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = \App\Models\Product::all();
+        $products = Product::paginate(8);
+        // all();
         return view('listProduct', compact('products'));
     }
 

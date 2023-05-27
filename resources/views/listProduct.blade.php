@@ -90,85 +90,87 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
   border-bottom-right-radius: 5%;
 }
 
+    .btn-secondary {
+        position: relative;
+    }
 
+    .btn-secondary .hover-text {
+        display: none; /* Menghilangkan tampilan tulisan secara default */
+        transition: opacity 0.3s;
+    }
+
+    .btn-secondary:hover .hover-text {
+        display: inline;
+        width: 120px;
+    } 
 </style>
 
 <body>
 <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/listproduct') }}" style="align-content: center;">Kasir</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/listproduct') }}" style="align-content: center;">Kasir</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    
-                    </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav mr-auto">
+                
+            </ul>
 
-                    @auth
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <div class="input-group rounded">
-                                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                    <span class="input-group-text border-0" id="search-addon">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
-                    @else
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <div class="input-group rounded d-none">
-                                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                    <span class="input-group-text border-0" id="search-addon">
-                                        <i class="fas fa-search"></i>
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
-                    @endauth
+            <!-- Center of Navbar -->
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <div class="input-group rounded">
+                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class="bi bi-search"></i>
+                        </span>
+                    </div>
+                </li>
+            </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                        @if (Route::has('login'))
+            <!-- Right Side Of Navbar -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Authentication Links -->
+                @guest
+                    @if (Route::has('login'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
-                        @endif
+                    @endif
 
-                        @if (Route::has('register'))
+                    @if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
+                    @endif
+                @else
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                        </a>
 
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <!-- Dropdown Items -->
+                            <a class="dropdown-item" href="#"><i class="bi bi-cart3"></i> Keranjang</a>
+                            <!-- <a class="dropdown-item" href="#">Item 2</a> -->
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:red"><i class="bi bi-box-arrow-left"></i> {{ __('Logout') }}</a>
+                            <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                @endguest
+            </ul>
+        </div>
+    </div>
+</nav>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
 
         
     </div>
@@ -182,10 +184,10 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
     </div> -->
     <div class="d-flex justify-content-between">
   <div>
-    <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px">Tambah Produk</a>
+    <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px"><i class="bi bi-plus-square"></i><span class="hover-text"> <i>Tambah Produk</i></span></a>
   </div>
   <div>
-    <a class="btn btn-secondary mb-2 ml-auto" href="/checkout" style="margin-top:8px">Riwayat Transaksi</a>
+    <a class="btn btn-secondary mb-2 ml-auto" href="/checkout" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
   </div>
 </div>
 
@@ -197,12 +199,18 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center mb-3">
                             @if (strlen($product->image_url) > 0)
-                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; max-width: 1500px" class="img-fluid">
+                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px" class="img-fluid">
                             @else
                                 <span class="text-muted">Gambar tidak tersedia</span>
                             @endif
                         </div>
                         <div class="mb-3">
+                        <!-- @if (strlen($product->image_url) > 0)
+                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px" class="img-fluid">
+                            @else
+                                <span class="text-muted">Gambar tidak tersedia</span>
+                            @endif
+                            <br> -->
                             <h5 class="card-title">{{ $product->name }}</h5>
                             <!-- <p class="card-text">{{ $product->description }}</p> -->
                             <p class="card-text"><small class="text-muted">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</small></p>
@@ -242,8 +250,14 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
       <div class="modal-footer">
       <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
                         ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="/cart/add/{{$product->id}}" class="btn btn-primary">Tambahkan ke Keranjang</a>
+        <form action="/cart/add/{{$product->id}}" method="POST">
+        @csrf
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
+        </button>
+    </form>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <a href="/cart/add/{{$product->id}}" class="btn btn-primary"><i class="bi bi-cart-plus"></i></a> -->
       </div>
     </div>
   </div>
