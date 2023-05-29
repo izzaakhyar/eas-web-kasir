@@ -24,7 +24,7 @@ class AuthController extends Controller
             'email'=>$request->email
         ]);
 
-        return redirect('/list');
+        return redirect('/');
     }
 
     public function authenticate(Request $request) {

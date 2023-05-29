@@ -12,9 +12,14 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(8);
+        if ($request->has('search')) {
+            $products = Product::where('name', 'LIKE', '%' .$request->search. '%')->paginate(8);
+        } else {
+            $products = Product::paginate(8);
+        }
+        
         // all();
         return view('listProduct', compact('products'));
     }
@@ -24,7 +29,7 @@ class ProductController extends Controller
      */
     public function add()
     {
-        return view('app');
+        return view('create');
     }
     public function create(Request $request)
     {
@@ -61,13 +66,6 @@ class ProductController extends Controller
     {
         $products = \App\Models\Product::find($id);
         return view('edit', compact('products'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $products = \App\Models\Product::find($id);
-        $products->update($request->all());
-        return redirect('/list')->with('sukses','Data berhasil diupdate');
     }
 
     public function delete($id){

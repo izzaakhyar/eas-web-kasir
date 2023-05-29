@@ -109,7 +109,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
 <div id="app">
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/listproduct') }}" style="align-content: center;">Kasir</a>
+        <a class="navbar-brand" href="/list" style="align-content: center;">Kasir</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -124,13 +124,17 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <div class="input-group rounded">
-                        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <i class="bi bi-search"></i>
-                        </span>
+                        <form action="/list" method="get">
+                        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        </form>
+                        
+                            <i class="bi bi-search input-group-text border-0"></i>
+                        
                     </div>
                 </li>
             </ul>
+
+
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -156,7 +160,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <!-- Dropdown Items -->
-                            <a class="dropdown-item" href="#"><i class="bi bi-cart3"></i> Keranjang</a>
+                            <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> Keranjang</a>
                             <!-- <a class="dropdown-item" href="#">Item 2</a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:red"><i class="bi bi-box-arrow-left"></i> {{ __('Logout') }}</a>
@@ -250,12 +254,12 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
       <div class="modal-footer">
       <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
                         ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
-        <form action="/cart/add/{{$product->id}}" method="POST">
-        @csrf
-        <button type="submit" class="btn btn-primary">
-            <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
-        </button>
-    </form>
+        <form action="{{ route('cart.add', $product) }}" method="POST">
+    @csrf
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
+    </button>
+</form>
         <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <a href="/cart/add/{{$product->id}}" class="btn btn-primary"><i class="bi bi-cart-plus"></i></a> -->
       </div>
