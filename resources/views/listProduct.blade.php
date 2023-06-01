@@ -197,9 +197,10 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
 
     <div class="row">
         @foreach($products as $product)
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
             <a href="/detail/{{$product->id}}" class="card-link" data-toggle="modal" data-target="#myModal{{$product->id}}">
-                <div class="card h-100" style="border-radius: 5%; background-color: #f8f8f6">
+                <div class="card h-100" style="border-radius: 5%; background-color: #f8f8f6;">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center mb-3">
                             @if (strlen($product->image_url) > 0)
@@ -227,6 +228,27 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
             </a>
         </div>
         @endforeach
+        
+        <div class="row justify-content-center" style="margin-top: 0px">
+        <div class="col-auto mt-10">
+            <!-- Tombol Previous -->
+            @if ($products->currentPage() > 1)
+                <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                    <i class="bi bi-chevron-left"></i>
+                    <span class="hover-text"><i>Previous</i></span>
+                </a>
+            @endif
+        </div>
+        <div class="col-auto">
+            <!-- Tombol Next -->
+            @if ($products->hasMorePages())
+                <a href="{{ $products->nextPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                    <span class="hover-text"><i>Next</i></span>
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            @endif
+        </div>
+    </div>
 
         @foreach ($products as $product)
         <div class="modal fade" id="myModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

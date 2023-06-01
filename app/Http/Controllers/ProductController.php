@@ -17,7 +17,7 @@ class ProductController extends Controller
         if ($request->has('search')) {
             $products = Product::where('name', 'LIKE', '%' .$request->search. '%')->paginate(8);
         } else {
-            $products = Product::paginate(8);
+            $products = Product::simplePaginate(8);
         }
         
         // all();
@@ -66,6 +66,13 @@ class ProductController extends Controller
     {
         $products = \App\Models\Product::find($id);
         return view('edit', compact('products'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $products = \App\Models\Product::find($id);
+        $products->update($request->all());
+        return redirect('/list')->with('sukses','Data berhasil diupdate');
     }
 
     public function delete($id){

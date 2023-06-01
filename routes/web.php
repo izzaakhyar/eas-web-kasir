@@ -22,19 +22,21 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::get('/registration', [AuthController::class, 'daftar'])->name('register');
-Route::post('/registration', [AuthController::class, 'registrasi']);
+Route::get('/registration', [AuthController::class, 'daftar'])->name('register')->middleware(['guest']);
+Route::post('/registration', [AuthController::class, 'registrasi'])->middleware(['guest']);
 
 Route::get('/list', [ProductController::class, 'index'])->middleware(['auth']);
 // Route::get('/create', [ProductController::class, 'add']);
 // Route::get('/create', function () {
 //     return view('create');
 // });
-Route::get('/create', [ProductController::class, 'add']);
-Route::post('/addproduct', [ProductController::class, 'create']);
-Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
-Route::post('/product/{id}/update', [ProductController::class, 'update']);
-Route::get('/product/{id}/delete', [ProductController::class, 'delete']);
+Route::get('/create', [ProductController::class, 'add'])->middleware(['auth']);
+Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth']);
+Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware(['auth']);
+Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth']);
+Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth']);
 
-Route::get('/cart', [CartController::class, 'index']);
-Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->middleware(['auth']);
+Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add')->middleware(['auth']);
+
+Route::post('/checkout', [CartController::class, 'checkout']);

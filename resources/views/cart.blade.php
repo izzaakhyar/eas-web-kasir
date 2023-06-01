@@ -100,6 +100,8 @@
         <div class="col-md-12">
             <a href="/list" class="btn btn-light"><i class="bi bi-arrow-left"></i> Continue shopping</a>
             <hr>
+            <form action="/checkout" method="post">
+                @csrf
             <div class="card h-100">
                 <div class="card-header">Keranjang</div>
                 <div class="card-body">
@@ -119,15 +121,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <form action="/checkout"></form>
                                     @foreach ($carts as $cart)
                                         <tr>
                                             <td>
                                                 <img src="{{ asset('storage/products/' . $cart->product->image_url) }}" alt="{{ $cart->product->name }}" class="img-thumbnail" style="max-width: 100px;">
                                             </td>
                                             <td>{{ $cart->product->name }}</td>
-                                            <td>{{ $cart->quantity }}</td>
-                                            <td>Rp {{ number_format($cart->product->price) }}</td>
-                                            <td>Rp {{ number_format($cart->quantity * $cart->product->price) }}</td>
+                                            <td>
+                                                <button onclick="decreaseQuantity({{ $cart->product->id }})"><i class="bi bi-dash-square"></i></button>
+                                                <span id="quantity_{{ $cart->product->id }}">{{ $cart->quantity }}</span>
+                                                <button onclick="increaseQuantity({{ $cart->product->id }})"><i class="bi bi-plus-square"></i></button>
+                                            </td>
+                                            <td id="price_{{ $cart->product->id }}">Rp {{ number_format($cart->product->price, 0, ',', '.') }}</td>
+                                            <td id="totalPrice_{{ $cart->product->id }}">Rp {{ number_format($cart->quantity * $cart->product->price, 0, ',', '.') }}</td>
                                             <td>
                                                 <form action="#" method="POST">
                                                     @csrf
@@ -140,18 +147,19 @@
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="4"><strong>Total:</strong></td>
-                                        <td colspan="2"><strong>Rp {{ number_format($totalAmount) }}</strong></td>
-                                    </tr>
+  <td colspan="4"><strong>Total:</strong></td>
+  <td colspan="2" id="totalAmount"><strong>Rp {{ number_format($totalAmount, 0, ',', '.') }}</strong></td>
+</tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="text" style="margin-right: 10px;">
-                            <a href="#" class="btn btn-primary">
+                            <a href="/checkout" class="btn btn-primary">
                                 <i class="bi bi-cash-stack"></i> Checkout
                             </a>
                         </div>
                     @endif
+                    </form>
                 </div>
             </div>
         </div>
@@ -159,4 +167,56 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+
+var totalAmount = {{ $totalAmount }};
+  
+  function decreaseQuantity(productId) {
+    var quantityElement = document.getElementById('quantity_' + productId);
+    var quantity = parseInt(quantityElement.innerHTML);
+    
+    if (quantity > 1) {
+      quantity -= 1;
+      quantityElement.innerHTML = quantity;
+      updatePrice(productId, quantity);
+      updateTotalAmount();
+    }
+  }
+  
+  function increaseQuantity(productId) {
+    var quantityElement = document.getElementById('quantity_' + productId);
+    var quantity = parseInt(quantityElement.innerHTML);
+    
+    quantity += 1;
+    quantityElement.innerHTML = quantity;
+    updatePrice(productId, quantity);
+    updateTotalAmount();
+  }
+  
+  function updatePrice(productId, quantity) {
+    var priceElement = document.getElementById('price_' + productId);
+    var totalPriceElement = document.getElementById('totalPrice_' + productId);
+    var price = parseFloat(priceElement.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
+    
+    var totalPrice = quantity * price;
+    totalPriceElement.innerHTML = 'Rp ' + formatPrice(totalPrice);
+  }
+  
+  function updateTotalAmount() {
+    var totalAmountElement = document.getElementById('totalAmount');
+    var totalPriceElements = document.querySelectorAll('[id^="totalPrice_"]');
+    var total = 0;
+    
+    totalPriceElements.forEach(function(element) {
+      var price = parseFloat(element.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
+      total += price;
+    });
+    
+    totalAmountElement.innerHTML = 'Rp ' + formatPrice(total);
+  }
+  
+  function formatPrice(price) {
+    return price.toLocaleString('id-ID', { minimumFractionDigits: 0 });
+  }
+</script>
 </body>
