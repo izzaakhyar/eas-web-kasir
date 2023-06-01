@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
+use App\Models\Cart;
 
 class ProductController extends Controller
 {
@@ -19,9 +20,12 @@ class ProductController extends Controller
         } else {
             $products = Product::simplePaginate(8);
         }
+
+        $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+        $totalProducts = count($carts);
         
         // all();
-        return view('listProduct', compact('products'));
+        return view('listProduct', compact('products', 'totalProducts'));
     }
 
     /**

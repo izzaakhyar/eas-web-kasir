@@ -78,6 +78,9 @@
 
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="balance dropdown-item">
+                              <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong><br>Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</p>
+                            </div>
                             <!-- Dropdown Items -->
                             <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> Keranjang</a>
                             <!-- <a class="dropdown-item" href="#">Item 2</a> -->
@@ -98,10 +101,16 @@
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height: 60vh;">
         <div class="col-md-12">
-            <a href="/list" class="btn btn-light"><i class="bi bi-arrow-left"></i> Continue shopping</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-start">
+                <a href="/list" class="btn btn-light"><i class="bi bi-arrow-left"></i> Continue shopping</a>
+                </div>
+                <div class="d-flex justify-content-end mr-0">Your Account Balance: Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</div>
+            </div>
+            
+            
             <hr>
-            <form action="/checkout" method="post">
-                @csrf
+            
             <div class="card h-100">
                 <div class="card-header">Keranjang</div>
                 <div class="card-body">
@@ -121,7 +130,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form action="/checkout"></form>
+                                    
                                     @foreach ($carts as $cart)
                                         <tr>
                                             <td>
@@ -136,9 +145,9 @@
                                             <td id="price_{{ $cart->product->id }}">Rp {{ number_format($cart->product->price, 0, ',', '.') }}</td>
                                             <td id="totalPrice_{{ $cart->product->id }}">Rp {{ number_format($cart->quantity * $cart->product->price, 0, ',', '.') }}</td>
                                             <td>
-                                                <form action="#" method="POST">
+                                                <form action="/cart/{{ $cart->product->id }}" method="POST">
                                                     @csrf
-                                                    @method('DELETE')
+                                                    @method('POST')
                                                     <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="bi bi-trash"></i> Hapus
                                                     </button>
@@ -153,13 +162,43 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text" style="margin-right: 10px;">
-                            <a href="/checkout" class="btn btn-primary">
+                        <div class="d-flex justify-content-between">
+                        @if ($totalAmount > Auth::user()->balance)
+                        
+                            <div class="text d-flex justify-content-start" style="margin-right: 10px;">
+                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                                    <i class="bi bi-cash-stack"></i> Top Up Saldo
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a href="/cart" class="btn btn-primary" style="cursor: not-allowed;" title="Klik untuk melakukan checkout" 
+                                onclick="return confirm('Anda tidak memiliki cukup saldo. Silahkan top up dulu')">
+                                    <i class="bi bi-cash-stack"></i> Checkout
+                                </a>
+                            </div>
+                        
+                        
+                        @else 
+                        
+                        <div class="text d-flex justify-content-start" style="margin-right: 10px;">
+                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                                    <i class="bi bi-cash-stack"></i> Top Up Saldo
+                                </a>
+                            </div>
+                            <form action="/checkout/{{ $cart->id }}" method="post">
+                                @csrf
+                                
+                        <div class="text d-flex justify-content-end" style="margin-right: 10px;">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="bi bi-cash-stack"></i> Checkout
-                            </a>
+</button>
                         </div>
+                        </form>
+                        @endif
+                        </div>
+
                     @endif
-                    </form>
+                    
                 </div>
             </div>
         </div>
@@ -167,56 +206,5 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
 
-var totalAmount = {{ $totalAmount }};
-  
-  function decreaseQuantity(productId) {
-    var quantityElement = document.getElementById('quantity_' + productId);
-    var quantity = parseInt(quantityElement.innerHTML);
-    
-    if (quantity > 1) {
-      quantity -= 1;
-      quantityElement.innerHTML = quantity;
-      updatePrice(productId, quantity);
-      updateTotalAmount();
-    }
-  }
-  
-  function increaseQuantity(productId) {
-    var quantityElement = document.getElementById('quantity_' + productId);
-    var quantity = parseInt(quantityElement.innerHTML);
-    
-    quantity += 1;
-    quantityElement.innerHTML = quantity;
-    updatePrice(productId, quantity);
-    updateTotalAmount();
-  }
-  
-  function updatePrice(productId, quantity) {
-    var priceElement = document.getElementById('price_' + productId);
-    var totalPriceElement = document.getElementById('totalPrice_' + productId);
-    var price = parseFloat(priceElement.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
-    
-    var totalPrice = quantity * price;
-    totalPriceElement.innerHTML = 'Rp ' + formatPrice(totalPrice);
-  }
-  
-  function updateTotalAmount() {
-    var totalAmountElement = document.getElementById('totalAmount');
-    var totalPriceElements = document.querySelectorAll('[id^="totalPrice_"]');
-    var total = 0;
-    
-    totalPriceElements.forEach(function(element) {
-      var price = parseFloat(element.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
-      total += price;
-    });
-    
-    totalAmountElement.innerHTML = 'Rp ' + formatPrice(total);
-  }
-  
-  function formatPrice(price) {
-    return price.toLocaleString('id-ID', { minimumFractionDigits: 0 });
-  }
-</script>
 </body>

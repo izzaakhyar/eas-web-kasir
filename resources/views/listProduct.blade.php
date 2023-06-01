@@ -31,14 +31,15 @@
     color: black;
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
+    border-color: white;
   }
 .card:hover {
     /* box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); */
     transform: translateY(-2px);
     transition-duration: 0.2s;
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 10px 0px,
-    rgba(0, 0, 0, 0.5) 0px 2px 25px 0px;
-    border-color: red;
+    box-shadow: rgba(255, 0, 0, 0.4) 4px 4px 4px 4px,
+    rgba(0, 0, 255, 0.5) 4px 4px 4px 4px;
+    border-color: rgb(255, 0, 255);
     
   }
   .card::before {
@@ -109,7 +110,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
 <div id="app">
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
-        <a class="navbar-brand" href="/list" style="align-content: center;">Kasir</a>
+        <a class="navbar-brand" href="/list" style="align-content: center;"><p style="text-decoration:line-through; display:inline"> Kasir</p> Toko Online</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -158,9 +159,20 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
                         </a>
 
                         <!-- Dropdown Menu -->
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
+                            <div class="balance dropdown-item">
+                              <p style="margin-bottom:0"><strong><i class="bi bi-controller"></i> Games</i></strong></p>
+                              <small style="margin-left:23px">0 Games Owned</small>
+                              
+                            </div>
+                            <div class="balance dropdown-item">
+                              <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong></p>
+                              
+                              <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small>
+                            </div>
                             <!-- Dropdown Items -->
-                            <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> Keranjang</a>
+                            <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> <strong>Cart</strong><br>
+                            <small style="margin-left:23px"> {{ $totalProducts }} Items</small></a>
                             <!-- <a class="dropdown-item" href="#">Item 2</a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:red"><i class="bi bi-box-arrow-left"></i> {{ __('Logout') }}</a>
@@ -197,14 +209,14 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
 
     <div class="row">
         @foreach($products as $product)
-        
+        <!-- #f8f8f6 -->
         <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
             <a href="/detail/{{$product->id}}" class="card-link" data-toggle="modal" data-target="#myModal{{$product->id}}">
-                <div class="card h-100" style="border-radius: 5%; background-color: #f8f8f6;">
+                <div class="card h-100" style="border-radius: 5%; background-color: black;">
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center mb-3">
                             @if (strlen($product->image_url) > 0)
-                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px" class="img-fluid">
+                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px; border: 1px solid white" class="img-fluid">
                             @else
                                 <span class="text-muted">Gambar tidak tersedia</span>
                             @endif
@@ -216,7 +228,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
                                 <span class="text-muted">Gambar tidak tersedia</span>
                             @endif
                             <br> -->
-                            <h5 class="card-title">{{ $product->name }}</h5>
+                            <h5 class="card-title" style="color: #f8f8f6">{{ $product->name }}</h5>
                             <!-- <p class="card-text">{{ $product->description }}</p> -->
                             <p class="card-text"><small class="text-muted">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</small></p>
                         </div>
@@ -230,7 +242,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
         @endforeach
         
         <div class="row justify-content-center" style="margin-top: 0px">
-        <div class="col-auto mt-10">
+        <div class="col-auto">
             <!-- Tombol Previous -->
             @if ($products->currentPage() > 1)
                 <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light">

@@ -6,21 +6,38 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
     public function index()
     {
         $carts = Cart::with('product')->where('user_id', auth()->id())->get();
-        $totalAmount = $carts->sum(function ($cart) {
-            return $cart->quantity * $cart->product->price;
-        });
+        // $totalAmount = $carts->sum(function ($cart) {
+        //     return $cart->quantity * $cart->product->price;
+        // });
+        $totalAmount = $this->calculateTotalAmount($carts);
+
+        session(['totalAmount' => $totalAmount]);
 
         return view('cart', compact('carts', 'totalAmount'));
     }
     public function addToCart(Request $request, Product $product)
     {
+        $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+        // $total_Amount = $carts->sum(function ($cart) {
+        //     return $cart->quantity * $cart->product->price;
+        // });
+        $products = Product::where('id', $product->id)->first();
+        $date = Carbon::now();
+
+        // $total_Amount = $this->calculateTotalAmount($carts);
+
+        
+        
+
         // Cek apakah produk sudah ada di keranjang user
         $cart = Cart::where('user_id', auth()->id())
                     ->where('product_id', $product->id)
@@ -39,71 +56,79 @@ class CartController extends Controller
             ]);
         }
 
+        $order_check = Order::where('user_id', Auth::user()->id)->where('status', 0)->first();
+
+        if (empty($order_check)) {
+            // Simpan ke tabel order
+            $orders = new Order;
+            $orders->user_id = auth()->id();
+            $orders->date = $date;
+            $orders->status = 0;
+            
+            $orders->save();
+        }
+
+        // Hitung kembali totalAmount setelah pembaruan keranjang
+    $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+    $totalAmount = $this->calculateTotalAmount($carts);
+
+    // Perbarui totalAmount pada order terkait
+    if ($order_check) {
+        $order_check->totalAmount = $totalAmount;
+        $order_check->save();
+    }
+
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
-    public function checkout(Request $request)
-    {
-        // Ambil semua item keranjang untuk pengguna saat ini
-        $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+    private function calculateTotalAmount($carts)
+{
+    return $carts->sum(function ($cart) {
+        return $cart->quantity * $cart->product->price;
+    });
+}
 
-        // Validasi ketersediaan stok produk sebelum melakukan checkout
-        foreach ($carts as $cart) {
-            if ($cart->quantity > $cart->product->stock) {
-                return redirect()->route('cart.index')->with('error', 'Stok produk ' . $cart->product->name . ' tidak mencukupi.');
-            }
-        }
+    public function deleteProduct($productId)
+{
+    // Cari cart berdasarkan product id
+    $cart = Cart::where('product_id', $productId)->first();
 
-        // Mulai transaksi database
-        try {
-            \DB::beginTransaction();
-
-            // Buat entri order dalam tabel orders
-            $order = Order::create([
-                'user_id' => auth()->id(),
-                'total_amount' => 0, // Nilai awal, akan diupdate nanti
-                'status' => 'pending', // Atur status pesanan sesuai kebutuhan
-            ]);
-
-            $totalAmount = 0; // Total jumlah pembayaran
-
-            // Buat entri order detail dalam tabel order_details
-            foreach ($carts as $cart) {
-                $product = $cart->product;
-                $quantity = $cart->quantity;
-                $price = $product->price;
-
-                // Kurangi stok produk sesuai kuantitas yang dipesan
-                $product->stock -= $quantity;
-                $product->save();
-
-                // Buat entri order detail
-                OrderDetail::create([
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'quantity' => $quantity,
-                    'price' => $price,
-                ]);
-
-                // Hitung total pembayaran
-                $totalAmount += $quantity * $price;
-            }
-
-            // Update total pembayaran pada entri order
-            $order->total_amount = $totalAmount;
-            $order->save();
-
-            // Hapus semua item dari keranjang
-            $carts->each->delete();
-
-            \DB::commit();
-
-            return redirect('/cart')->with('success', 'Checkout berhasil dilakukan. Terima kasih atas pesanan Anda!');
-        } catch (\Exception $e) {
-            \DB::rollback();
-
-            return redirect('/cart')->with('error', 'Terjadi kesalahan saat melakukan proses checkout. Silakan coba lagi nanti.');
-        }
+    if (!$cart) {
+        return redirect()->back()->with('error', 'Produk tidak ditemukan dalam cart.');
     }
+
+    // Hapus cart
+    $cart->delete();
+
+    return redirect()->back()->with('success', 'Produk berhasil dihapus dari cart.');
+}
+
+public function checkout(Request $request)
+{
+    // Pengurangan balance pengguna berdasarkan totalAmount
+    $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+    $user = Auth::user();
+    $totalAmount = $this->calculateTotalAmount($carts);
+    $user->balance -= $totalAmount;
+    $user->save();
+
+    // Ubah status order menjadi 1
+    $order = Order::where('user_id', $user->id)
+        ->where('status', 0)
+        ->first();
+    $order->status = 1;
+    $order->save();
+
+    // Hapus produk yang sudah dibeli dari cart
+    $cart = Cart::where('user_id', $user->id)
+        ->where('checkout', 0)
+        ->first();
+    $cart->checkout = 1;
+    $cart->save();
+
+    // ... lakukan tindakan lanjutan setelah checkout ...
+
+    return redirect()->back()->with('success', 'Checkout berhasil.');
+}
 
 }
