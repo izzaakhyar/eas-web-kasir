@@ -27,4 +27,8 @@ class OrderController extends Controller
         // Redirect back with success message
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
+
+    public function order() {
+        
+    }
 }

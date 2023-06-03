@@ -78,6 +78,9 @@
 
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <div class="balance dropdown-item">
+                              <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong><br>Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</p>
+                            </div>
                             <!-- Dropdown Items -->
                             <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> Keranjang</a>
                             <!-- <a class="dropdown-item" href="#">Item 2</a> -->
@@ -98,10 +101,16 @@
 <div class="container">
     <div class="row justify-content-center align-items-center" style="height: 60vh;">
         <div class="col-md-12">
-            <a href="/list" class="btn btn-light"><i class="bi bi-arrow-left"></i> Continue shopping</a>
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-start">
+                <a href="/list" class="btn btn-light"><i class="bi bi-arrow-left"></i> Continue shopping</a>
+                </div>
+                <div class="d-flex justify-content-end mr-0">Your Account Balance: Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</div>
+            </div>
+            
+            
             <hr>
-            <form action="/checkout" method="post">
-                @csrf
+            
             <div class="card h-100">
                 <div class="card-header">Keranjang</div>
                 <div class="card-body">
@@ -121,7 +130,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <form action="/checkout"></form>
+                                    
                                     @foreach ($carts as $cart)
                                         <tr>
                                             <td>
@@ -136,9 +145,9 @@
                                             <td id="price_{{ $cart->product->id }}">Rp {{ number_format($cart->product->price, 0, ',', '.') }}</td>
                                             <td id="totalPrice_{{ $cart->product->id }}">Rp {{ number_format($cart->quantity * $cart->product->price, 0, ',', '.') }}</td>
                                             <td>
-                                                <form action="#" method="POST">
+                                                <form action="/cart/{{ $cart->product->id }}" method="POST">
                                                     @csrf
-                                                    @method('DELETE')
+                                                    @method('POST')
                                                     <button type="submit" class="btn btn-danger btn-sm">
                                                         <i class="bi bi-trash"></i> Hapus
                                                     </button>
@@ -153,13 +162,43 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text" style="margin-right: 10px;">
-                            <a href="/checkout" class="btn btn-primary">
+                        <div class="d-flex justify-content-between">
+                        @if ($totalAmount > Auth::user()->balance)
+                        
+                            <div class="text d-flex justify-content-start" style="margin-right: 10px;">
+                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                                    <i class="bi bi-cash-stack"></i> Top Up Saldo
+                                </a>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <a href="/cart" class="btn btn-primary" style="cursor: not-allowed;" title="Klik untuk melakukan checkout" 
+                                onclick="return confirm('Anda tidak memiliki cukup saldo. Silahkan top up dulu')">
+                                    <i class="bi bi-cash-stack"></i> Checkout
+                                </a>
+                            </div>
+                        
+                        
+                        @else 
+                        
+                        <div class="text d-flex justify-content-start" style="margin-right: 10px;">
+                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                                    <i class="bi bi-cash-stack"></i> Top Up Saldo
+                                </a>
+                            </div>
+                            <form action="/checkout" method="post">
+                                @csrf
+                                
+                        <div class="text d-flex justify-content-end" style="margin-right: 10px;">
+                            <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-cash-stack"></i> Checkout
-                            </a>
+                            </button>
                         </div>
+                        </form>
+                        @endif
+                        </div>
+
                     @endif
-                    </form>
+                    
                 </div>
             </div>
         </div>

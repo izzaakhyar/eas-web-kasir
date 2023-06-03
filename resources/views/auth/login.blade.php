@@ -35,17 +35,17 @@ height: 100%;
     </head>
 
 <section class="vh-100">
-  <div class="container-fluid h-custom">
+  <div class="container-fluid h-custom" style="background-color: #202123">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-md-9 col-lg-6 col-xl-5">
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+        <img src="gambar/Logo-GameVerse-1.png"
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <form action="/login" method="post">
           @csrf
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-            <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+            <p class="lead fw-normal mb-0 me-3" style="color: white">Sign in with</p>
             <button type="button" class="btn btn-primary btn-floating mx-1">
               <i class="fab fa-facebook-f"></i>
             </button>
@@ -60,21 +60,21 @@ height: 100%;
           </div>
 
           <div class="divider d-flex align-items-center my-4">
-            <p class="text-center fw-bold mx-3 mb-0">Or</p>
+            <p class="text-center fw-bold mx-3 mb-0" style="color: white">Or</p>
           </div>
 
           <!-- Email input -->
           <div class="form-outline mb-4">
             <input type="email" id="form3Example3" class="form-control form-control-lg @error('email') is-invalid @enderror"
               placeholder="Enter a valid email address" name="email" required value="{{ old('email') }}"/>
-            <label class="form-label" for="form3Example3">Email address</label>
+            <label class="form-label" for="form3Example3" style="color: white">Email address</label>
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-3">
             <input type="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Enter password" name="password" required/>
-            <label class="form-label" for="form3Example4">Password</label>
+            <label class="form-label" for="form3Example4" style="color: white">Password</label>
             @error('email')
               <div class="invalid-feedback">
                 {{ $message }}
@@ -96,7 +96,7 @@ height: 100%;
           <div class="text-center text-lg-start mt-4 pt-2">
             <button type="submit" class="btn btn-primary btn-lg"
               style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
-            <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/registration"
+            <p class="small fw-bold mt-2 pt-1 mb-0" style="color: white">Don't have an account? <a href="/registration"
                 class="link-danger">Register</a></p>
           </div>
 
@@ -105,9 +105,9 @@ height: 100%;
     </div>
   </div>
   <div
-    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+    class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5" style="background-color: white">
     <!-- Copyright -->
-    <div class="text-white mb-3 mb-md-0">
+    <div class="text-black mb-3 mb-md-0">
       Copyright © 2023. All rights reserved.
     </div>
     <!-- Copyright -->

@@ -27,6 +27,10 @@ class AuthController extends Controller
         return redirect('/');
     }
 
+    public function login() {
+        return view('auth.login');
+    }
+    
     public function authenticate(Request $request) {
         $credentials = $request->validate([
             'email' => 'required|email:dns',
