@@ -29,6 +29,18 @@ class CartController extends Controller
     // addToCart
     public function addTo(Request $request, Product $product)
     {
+        $carts = Cart::with('product')->where('user_id', auth()->id())->get();
+        // $total_Amount = $carts->sum(function ($cart) {
+        //     return $cart->quantity * $cart->product->price;
+        // });
+        $products = Product::where('id', $product->id)->first();
+        $date = Carbon::now();
+
+        // $total_Amount = $this->calculateTotalAmount($carts);
+
+        
+        
+
         // Cek apakah produk sudah ada di keranjang user
         $cart = Cart::where('user_id', auth()->id())
                     ->where('product_id', $product->id)

@@ -206,56 +206,5 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
 
-var totalAmount = {{ $totalAmount }};
-  
-  function decreaseQuantity(productId) {
-    var quantityElement = document.getElementById('quantity_' + productId);
-    var quantity = parseInt(quantityElement.innerHTML);
-    
-    if (quantity > 1) {
-      quantity -= 1;
-      quantityElement.innerHTML = quantity;
-      updatePrice(productId, quantity);
-      updateTotalAmount();
-    }
-  }
-  
-  function increaseQuantity(productId) {
-    var quantityElement = document.getElementById('quantity_' + productId);
-    var quantity = parseInt(quantityElement.innerHTML);
-    
-    quantity += 1;
-    quantityElement.innerHTML = quantity;
-    updatePrice(productId, quantity);
-    updateTotalAmount();
-  }
-  
-  function updatePrice(productId, quantity) {
-    var priceElement = document.getElementById('price_' + productId);
-    var totalPriceElement = document.getElementById('totalPrice_' + productId);
-    var price = parseFloat(priceElement.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
-    
-    var totalPrice = quantity * price;
-    totalPriceElement.innerHTML = 'Rp ' + formatPrice(totalPrice);
-  }
-  
-  function updateTotalAmount() {
-    var totalAmountElement = document.getElementById('totalAmount');
-    var totalPriceElements = document.querySelectorAll('[id^="totalPrice_"]');
-    var total = 0;
-    
-    totalPriceElements.forEach(function(element) {
-      var price = parseFloat(element.innerHTML.replace('Rp ', '').replace('.', '').replace('.', '').replace(',', '.'));
-      total += price;
-    });
-    
-    totalAmountElement.innerHTML = 'Rp ' + formatPrice(total);
-  }
-  
-  function formatPrice(price) {
-    return price.toLocaleString('id-ID', { minimumFractionDigits: 0 });
-  }
-</script>
 </body>
