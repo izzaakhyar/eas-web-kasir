@@ -124,7 +124,9 @@ public function checkout()
 
     // Retrieve the cart items for the current user
     $cartItems = Cart::where('user_id', $user->id)->get();
+    $orders = Cart::where('user_id', $user->id)->get();
     $checkoutItems = $cartItems->where('checkout', 0);
+    $balanceBefore = $user->balance;
 
     // Calculate the total amount from the cart items
     $totalAmount = 0;
@@ -138,6 +140,7 @@ public function checkout()
     }
 
     // Update the user's balance
+
     $user->balance -= $totalAmount;
     $user->save();
 
@@ -151,6 +154,7 @@ public function checkout()
     $order = Order::where('user_id', $user->id)->where('status', 0)->first();
     if ($order) {
         $order->status = 1; // Set the status to 1 indicating the order has been checked out
+        $order->pay = $balanceBefore;
         $order->save();
     }
 

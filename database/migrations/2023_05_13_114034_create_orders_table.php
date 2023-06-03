@@ -17,6 +17,7 @@ return new class extends Migration
             $table->date('date');
             $table->integer('status')->default(0);
             $table->integer('total_price');
+            $table->integer('pay')->default(0);
             $table->timestamps();
         });
     }

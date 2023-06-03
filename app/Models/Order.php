@@ -17,10 +17,6 @@ class Order extends Model
         return $this->hasMany(Cart::class, 'order_id', 'id');
     }
 
-    public function cart() {
-        return $this->hasMany(Cart::class, 'order_id', 'id');
-    }
-
     public function products()
     {
         return $this->belongsToMany(Product::class, 'order_product')

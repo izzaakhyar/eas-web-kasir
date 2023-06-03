@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}">
+    <!-- <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}"> -->
     <title>GameVerse</title>
 
     <!-- Scripts -->
@@ -22,75 +22,76 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
 </head>
-    <style>
+<style>
     body {
         background-color: #202123;
     }
+
     .card {
-    color: black;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-    border-color: white;
-  }
-.card:hover {
-    /* box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); */
-    transform: translateY(-2px);
-    transition-duration: 0.2s;
-    box-shadow: rgba(43, 27, 77, 0.4) 4px 4px 4px 4px,
-    rgba(43, 27, 77, 0.5) 4px 4px 4px 4px;
-    border-color: #8e69f3;
-    
-  }
-  .card::before {
-    background: #40E0D0;
-background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
-background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
-  animation: glowing01 5s linear infinite;
-  transform-origin: center;
-  animation: glowing 5s linear infinite;
-  }
-  @keyframes glowing {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-  .card-link {
-    color: black;
-    text-decoration: none;
-  }
-  .card-link:hover {
-    color: black;
-    text-decoration: none;
-  }
+        color: black;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+        border-color: white;
+    }
 
-  .modal-dialog {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: calc(100vh - 60px); /* Menggunakan 60px jika ada navbar di atas modal */
-}
+    .card:hover {
+        transform: translateY(-2px);
+        transition-duration: 0.2s;
+        box-shadow: rgba(43, 27, 77, 0.4) 4px 4px 4px 4px,
+        rgba(43, 27, 77, 0.5) 4px 4px 4px 4px;
+        border-color: #8e69f3;
+    }
 
-  .modal-content {
-  border-radius: 5%;
-  max-width: 90%;
-  
-}
+    .card::before {
+        background: #40E0D0;
+        background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
+        background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
+        animation: glowing01 5s linear infinite;
+        transform-origin: center;
+        animation: glowing 5s linear infinite;
+    }
 
-.modal-header {
-  border-top-left-radius: 5%;
-  border-top-right-radius: 5%;
-}
+    @keyframes glowing {
+        0% {
+            transform: rotate(0);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 
+    .card-link {
+        color: black;
+        text-decoration: none;
+    }
 
-.modal-footer {
-  border-bottom-left-radius: 5%;
-  border-bottom-right-radius: 5%;
-}
+    .card-link:hover {
+        color: black;
+        text-decoration: none;
+    }
+
+    .modal-dialog {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: calc(100vh - 60px); /* Menggunakan 60px jika ada navbar di atas modal */
+    }
+
+    .modal-content {
+        border-radius: 5%;
+        max-width: 90%;
+    }
+
+    .modal-header {
+        border-top-left-radius: 5%;
+        border-top-right-radius: 5%;
+    }
+
+    .modal-footer {
+        border-bottom-left-radius: 5%;
+        border-bottom-right-radius: 5%;
+    }
 
     .btn-secondary {
         position: relative;
@@ -109,105 +110,18 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
 
 <body>
 <div id="app">
-<nav class="navbar navbar-expand-md shadow-sm" style="background-color: #2b1b4d">
-    <div class="container">
-        <a class="navbar-brand" href="/list" style="align-content: center;"><img src="gambar/Logo-GameVerse.png"
-          class="img-fluid" alt="Sample image" style="width: 40px; height: 40px"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    @include('layouts.navbar')
+</div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-                
-            </ul>
-
-            <!-- Center of Navbar -->
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item">
-                    <div class="input-group rounded">
-                        <form action="/list" method="get">
-                        <input type="search" name="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                        </form>
-                        
-                            <i class="bi bi-search input-group-text border-0"></i>
-                        
-                    </div>
-                </li>
-            </ul>
-
-
-
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Authentication Links -->
-                @guest
-                    @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                    @endif
-
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-                @else
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
-                        </a>
-
-                        <!-- Dropdown Menu -->
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
-                            <div class="balance dropdown-item">
-                              <p style="margin-bottom:0"><strong><i class="bi bi-controller"></i> Games</i></strong></p>
-                              <small style="margin-left:23px">0 Games Owned</small>
-                              
-                            </div>
-                            <div class="balance dropdown-item">
-                              <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong></p>
-                              
-                              <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small>
-                            </div>
-                            <!-- Dropdown Items -->
-                            <a class="dropdown-item" href="/cart"><i class="bi bi-cart3"></i> <strong>Cart</strong><br>
-                            <small style="margin-left:23px"> {{ $totalProducts }} Items</small></a>
-                            <!-- <a class="dropdown-item" href="#">Item 2</a> -->
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:red"><i class="bi bi-box-arrow-left"></i> {{ __('Logout') }}</a>
-                            <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                @endguest
-            </ul>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between">
+        <div>
+            <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px"><i class="bi bi-plus-square"></i><span class="hover-text"> <i>Tambah Produk</i></span></a>
+        </div>
+        <div>
+            <a class="btn btn-secondary mb-2 ml-auto" href="/checkout" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
         </div>
     </div>
-</nav>
-
-
-        
-    </div>
-
-    
-
-    <div class="container-fluid">
-    <!-- <div class="d-flex justify-content-end">
-        <a class="btn btn-primary mb-2" href="/checkout">Riwayat Transaksi</a>
-        <a class="btn btn-primary mb-2" href="/create">Tambah Produk</a>
-    </div> -->
-    <div class="d-flex justify-content-between">
-  <div>
-    <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px"><i class="bi bi-plus-square"></i><span class="hover-text"> <i>Tambah Produk</i></span></a>
-  </div>
-  <div>
-    <a class="btn btn-secondary mb-2 ml-auto" href="/checkout" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
-  </div>
-</div>
 
     <div class="row">
         @foreach($products as $product)
@@ -224,14 +138,7 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
                             @endif
                         </div>
                         <div class="mb-3">
-                        <!-- @if (strlen($product->image_url) > 0)
-                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px" class="img-fluid">
-                            @else
-                                <span class="text-muted">Gambar tidak tersedia</span>
-                            @endif
-                            <br> -->
                             <h5 class="card-title" style="color: #f8f8f6">{{ $product->name }}</h5>
-                            <!-- <p class="card-text">{{ $product->description }}</p> -->
                             <p class="card-text"><small class="text-muted">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</small></p>
                         </div>
                         <div>
@@ -244,67 +151,66 @@ background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
         @endforeach
         
         <div class="row justify-content-center" style="margin-top: 0px">
-        <div class="col-auto">
-            <!-- Tombol Previous -->
-            @if ($products->currentPage() > 1)
-                <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light">
-                    <i class="bi bi-chevron-left"></i>
-                    <span class="hover-text"><i>Previous</i></span>
-                </a>
-            @endif
+            <div class="col-auto">
+                <!-- Tombol Previous -->
+                @if ($products->currentPage() > 1)
+                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                        <i class="bi bi-chevron-left"></i>
+                        <span class="hover-text"><i>Previous</i></span>
+                    </a>
+                @endif
+            </div>
+            <div class="col-auto">
+                <!-- Tombol Next -->
+                @if ($products->hasMorePages())
+                    <a href="{{ $products->nextPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                        <span class="hover-text"><i>Next</i></span>
+                        <i class="bi bi-chevron-right"></i>
+                    </a>
+                @endif
+            </div>
         </div>
-        <div class="col-auto">
-            <!-- Tombol Next -->
-            @if ($products->hasMorePages())
-                <a href="{{ $products->nextPageUrl() }}" class="btn btn-secondary btn-outline-light">
-                    <span class="hover-text"><i>Next</i></span>
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            @endif
-        </div>
-    </div>
 
         @foreach ($products as $product)
-        <div class="modal fade" id="myModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="myModalLabel">{{$product->name}}  <a href="/product/{{$product->id}}/edit" style="color:gray"><i class="bi bi-pencil-square"></i></a></h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" class="img-fluid">                 
-          </div>
-          <div class="col-md-6">
-            <p><strong>{{$product->name}}</strong></p>
-            <p><strong>Deskripsi:</strong></p>
-            <p>{{$product->description}}</p>
-            
-            <p><strong>Stok:</strong> {{ $product->stock }}</p>
-            <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-      <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
-                        ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
-        <form action="{{ route('cart.add', $product) }}" method="POST">
-    @csrf
-    <button type="submit" class="btn btn-primary">
-        <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
-    </button>
-</form>
-        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="/cart/add/{{$product->id}}" class="btn btn-primary"><i class="bi bi-cart-plus"></i></a> -->
-      </div>
+            <div class="modal fade" id="myModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">{{$product->name}}  <a href="/product/{{$product->id}}/edit" style="color:gray"><i class="bi bi-pencil-square"></i></a></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" class="img-fluid">                 
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>{{$product->name}}</strong></p>
+                                    <p><strong>Deskripsi:</strong></p>
+                                    <p>{{$product->description}}</p>
+                                    <p><strong>Stok:</strong> {{ $product->stock }}</p>
+                                    <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
+                                ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
+                            <form action="{{ route('cart.add', $product) }}" method="POST">
+                            @csrf
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
-  </div>
 </div>
-@endforeach
-    </div>
-</div> 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>

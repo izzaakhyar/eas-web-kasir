@@ -1,7 +1,7 @@
 @foreach ($orderHistory as $orderId => $items)
     <h3>Order ID: {{ $orderId }}</h3>
     <p>User: {{ $items->first()->order->user->name }}</p>
-    <p>Balance before checkout: {{ $items->first()->order->user->balance + $items->sum('total') }}</p>
+    <p>Balance before checkout: {{ $items->first()->order->pay }}</p>
     <p>Balance after checkout: {{ $items->first()->order->user->balance }}</p>
     <table>
         <thead>

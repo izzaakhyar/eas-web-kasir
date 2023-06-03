@@ -4,6 +4,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,4 +42,7 @@ Route::post('/cart/{productId}', [CartController::class, 'deleteProduct']);
 
 Route::post('/checkout', [CartController::class, 'checkout']);
 
-Route::get('/history/{id}', [CartController::class, 'history']);
+Route::get('/history', [CartController::class, 'history']);
+
+Route::get('/topup/{id}', [UserController::class, 'edit']);
+Route::post('/topup-process/{id}', [UserController::class, 'update']);
