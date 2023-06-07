@@ -24,7 +24,7 @@
     
 
 </head>
-<body>
+<body style="background-color: #202123;">
 <div id="app">
 @include('layouts.navbar')
 </div>

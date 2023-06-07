@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Cart;
 
-class ProductController extends Controller
+class HendraController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,6 +19,7 @@ class ProductController extends Controller
             $products = Product::where('name', 'LIKE', '%' .$request->search. '%')->paginate(8);
         } else {
             $products = Product::simplePaginate(8);
+            // $products = Product::orderBy('name', 'asc')->simplePaginate(8);
         }
 
         $carts = Cart::with('product')
@@ -31,12 +32,28 @@ class ProductController extends Controller
         return view('listProduct', compact('products', 'totalProducts'));
     }
 
+    public function totalProduct() {
+        $carts = Cart::with('product')
+            ->where('user_id', auth()->id())
+            ->where('checkout', 0) // Hanya ambil produk dengan nilai checkout = 0
+            ->get();
+        $totalProducts = $carts->where('checkout', 0)->count();
+
+        return view('layouts.navbar', compact('totalProducts'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
     public function add()
     {
-        return view('create');
+        $carts = Cart::with('product')
+            ->where('user_id', auth()->id())
+            ->where('checkout', 0) // Hanya ambil produk dengan nilai checkout = 0
+            ->get();
+        $totalProducts = $carts->where('checkout', 0)->count();
+
+        return view('create', compact('totalProducts'));
     }
     public function create(Request $request)
     {

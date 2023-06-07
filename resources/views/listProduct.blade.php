@@ -19,96 +19,15 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ URL::asset('css/coba.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <style>
-    body {
-        background-color: #202123;
-    }
-
-    .card {
-        color: black;
-        text-decoration: none;
-        transition: transform 0.2s, box-shadow 0.2s;
-        border-color: white;
-    }
-
-    .card:hover {
-        transform: translateY(-2px);
-        transition-duration: 0.2s;
-        box-shadow: rgba(43, 27, 77, 0.4) 4px 4px 4px 4px,
-        rgba(43, 27, 77, 0.5) 4px 4px 4px 4px;
-        border-color: #8e69f3;
-    }
-
-    .card::before {
-        background: #40E0D0;
-        background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
-        background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);
-        animation: glowing01 5s linear infinite;
-        transform-origin: center;
-        animation: glowing 5s linear infinite;
-    }
-
-    @keyframes glowing {
-        0% {
-            transform: rotate(0);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    .card-link {
-        color: black;
-        text-decoration: none;
-    }
-
-    .card-link:hover {
-        color: black;
-        text-decoration: none;
-    }
-
-    .modal-dialog {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: calc(100vh - 60px); /* Menggunakan 60px jika ada navbar di atas modal */
-    }
-
-    .modal-content {
-        border-radius: 5%;
-        max-width: 90%;
-    }
-
-    .modal-header {
-        border-top-left-radius: 5%;
-        border-top-right-radius: 5%;
-    }
-
-    .modal-footer {
-        border-bottom-left-radius: 5%;
-        border-bottom-right-radius: 5%;
-    }
-
-    .btn-secondary {
-        position: relative;
-    }
-
-    .btn-secondary .hover-text {
-        display: none; /* Menghilangkan tampilan tulisan secara default */
-        transition: opacity 0.3s;
-    }
-
-    .btn-secondary:hover .hover-text {
-        display: inline;
-        width: 120px;
-    } 
+    
 </style>
 
-<body>
+<body style="background-color: #202123">
 <div id="app">
     @include('layouts.navbar')
 </div>
@@ -212,5 +131,17 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function disableInputText() {
+        document.getElementById('inputText').disabled = true;
+    }
+
+    function disableRadioButtons() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        for (let i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].disabled = true;
+        }
+    }
+</script>
 
 </body>

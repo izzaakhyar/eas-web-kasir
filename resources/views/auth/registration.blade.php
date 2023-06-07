@@ -87,7 +87,7 @@
                 <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
                   class="img-fluid" alt="Sample image"> -->
 
-                  <img src="gambar/Logo-GameVerse-with-BG.png"
+                  <img src="gambar/Logo_GameVerse_with_BG_revisi.png"
                 class="img-fluid" alt="Sample image">
 
               </div>

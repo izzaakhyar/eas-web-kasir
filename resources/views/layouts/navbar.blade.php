@@ -156,17 +156,17 @@
                             </div>
                             <div class="col-md-4">
                                 <label class="btn btn-outline-primary btn-block" style="display: inline-block; width: 100%;">
-                                    <input type="radio" name="balance" value="600000"> IDR 600.000
+                                    <input type="radio" name="balance" value="600000" onclick="disableInputText()"> IDR 600.000
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <h6><small>atau masukkan nominal disini: </small></h6>
+                    <!-- <h6><small>atau masukkan nominal disini: </small></h6>
                     <div class="col-md-12">
                          <label class="col-md-12" style="display: inline-block; width: 100%;">
-                            <input type="text" name="balance" value="" class="col-md-12" style="border-radius: 1%"> 
+                            <input type="text" name="balance" id="inputText" value="" class="col-md-12" style="border-radius: 1%" oninput="disableRadioButtons()"> 
                         </label>
-                    </div>
+                    </div> -->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Top Up</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
