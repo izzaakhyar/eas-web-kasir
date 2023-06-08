@@ -38,7 +38,7 @@
             <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px"><i class="bi bi-plus-square"></i><span class="hover-text"> <i>Tambah Produk</i></span></a>
         </div>
         <div>
-            <a class="btn btn-secondary mb-2 ml-auto" href="/checkout" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
+            <a class="btn btn-secondary mb-2 ml-auto" href="/history" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
         </div>
     </div>
 

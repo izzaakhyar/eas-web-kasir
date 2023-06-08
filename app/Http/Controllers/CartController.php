@@ -6,6 +6,7 @@ use Auth;
 use App\Models\Cart;
 use App\Models\Product;
 use App\Models\Order;
+use App\Models\Game;
 use App\Models\OrderDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -64,43 +65,43 @@ class CartController extends Controller
 
     public function addToCart(Request $request, $id) {
         $product = Product::where('id', $id)->first();
-    $date = Carbon::now();
+        $date = Carbon::now();
 
-    $orderCheck = Order::where('user_id', auth()->id())
-        ->where('status', 0)
-        ->first();
+        $orderCheck = Order::where('user_id', auth()->id())
+            ->where('status', 0)
+            ->first();
 
-    if (empty($orderCheck)) {
-        $order = new Order;
-        $order->user_id = Auth::user()->id;
-        $order->date = $date;
-        $order->status = 0;
-        $order->total_price = $product->price * 1;
-        $order->save();
-    }
+        if (empty($orderCheck)) {
+            $order = new Order;
+            $order->user_id = Auth::user()->id;
+            $order->date = $date;
+            $order->status = 0;
+            $order->total_price = $product->price * 1;
+            $order->save();
+        }
 
-    $newCart = Order::where('user_id', Auth::user()->id)
-        ->where('status', 0)
-        ->first();
+        $newCart = Order::where('user_id', Auth::user()->id)
+            ->where('status', 0)
+            ->first();
 
-    $cart = new Cart;
-    $cart->product_id = $product->id;
-    $cart->user_id = Auth::user()->id;
-    $cart->order_id = $newCart->id;
-    $cart->quantity = 1;
-    $cart->total = $product->price * 1;
-    $cart->checkout = 0;
-    $cart->save();
+        $cart = new Cart;
+        $cart->product_id = $product->id;
+        $cart->user_id = Auth::user()->id;
+        $cart->order_id = $newCart->id;
+        $cart->quantity = 1;
+        $cart->total = $product->price * 1;
+        $cart->checkout = 0;
+        $cart->save();
 
-    // Update total_price in orders table
-    $totalPrice = Cart::where('user_id', Auth::user()->id)
-        ->where('order_id', $newCart->id)
-        ->sum('total');
+        // Update total_price in orders table
+        $totalPrice = Cart::where('user_id', Auth::user()->id)
+            ->where('order_id', $newCart->id)
+            ->sum('total');
 
-    $newCart->total_price = $totalPrice;
-    $newCart->save();
+        $newCart->total_price = $totalPrice;
+        $newCart->save();
 
-    return redirect('/list');
+        return redirect('/list');
     }
 
     public function deleteProduct($productId)
@@ -148,6 +149,11 @@ public function checkout()
     $cartItems->each(function ($item) {
         $item->checkout = 1; // Set checkout flag to 1 indicating the item has been checked out
         $item->save();
+
+        // $game = new Game();
+        // $game->user_id = $item->user_id;
+        // $game->product_id = $item->product_id;
+        // $game->save();
     });
 
     // Update the status of the order to 1
@@ -173,6 +179,12 @@ public function checkout()
         ->get()
         ->groupBy('order_id');
 
-    return view('history', compact('orderHistory'));
+        $carts = Cart::with('product')
+            ->where('user_id', auth()->id())
+            ->where('checkout', 0) // Hanya ambil produk dengan nilai checkout = 0
+            ->get();
+        $totalProducts = $carts->where('checkout', 0)->count();
+
+    return view('history', compact('orderHistory', 'totalProducts'));
     }
 }

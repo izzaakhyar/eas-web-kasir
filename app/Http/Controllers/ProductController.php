@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Cart;
 
-class HendraController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -74,7 +74,6 @@ class HendraController extends Controller
     DB::table('products')->insert([
         'name' => $request->name,
         'price' => $request-> price,
-        'stock' => $request->stock,
         'description' => $request->description,
         'image_url' => $image_url, // Kolom untuk menyimpan nama gambar
     ]);
@@ -89,7 +88,12 @@ class HendraController extends Controller
     public function edit(string $id)
     {
         $products = \App\Models\Product::find($id);
-        return view('edit', compact('products'));
+        $carts = Cart::with('product')
+            ->where('user_id', auth()->id())
+            ->where('checkout', 0) // Hanya ambil produk dengan nilai checkout = 0
+            ->get();
+        $totalProducts = $carts->where('checkout', 0)->count();
+        return view('edit', compact('products', 'totalProducts'));
     }
 
     public function update(Request $request, $id)

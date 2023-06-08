@@ -29,7 +29,7 @@
 <body style="background-color: #202123">
 <div class="container" style="margin-top: 4%">
     <a class="btn btn-primary mb-2" href="/list">Kembali</a>
-    <div class="card">
+    <div class="card" style="background-color: #372957">
         <div class="card-body">
             <h4 class="my-auto">Master Produk</h4>
             <hr>
@@ -74,13 +74,13 @@
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="stock">Stock*</label>
                     <input id="stock" class="form-control" type="text" name="stock" value="{{ old('stock') }}">
                     @error('stock')
                     <div class="text-danger">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> -->
                 <hr>
                 <div class="d-flex">
                     <button class="btn btn-primary ml-auto" type="submit">Simpan</button>

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\HendraController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
@@ -28,7 +28,7 @@ Route::get('/registration', [AuthController::class, 'daftar'])->name('register')
 Route::post('/registration', [AuthController::class, 'registrasi'])->middleware(['guest']);
 
 // CRUD Produk
-Route::get('/list', [HendraController::class, 'index'])->name('showProduct')->middleware(['auth']);
+Route::get('/list', [ProductController::class, 'index'])->name('showProduct')->middleware(['auth']);
 Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth']);
 Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth']);
 Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware(['auth']);

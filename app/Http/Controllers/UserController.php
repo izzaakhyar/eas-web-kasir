@@ -13,6 +13,12 @@ class UserController extends Controller
 
     //     return view('listProduct', compact('amounts'));
     // }
+    
+    public function user() {
+        $users = User::all();
+
+        return view('layouts.navbar', compact('users'));
+    }
 
     public function edit($id)
     {

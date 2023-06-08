@@ -43,8 +43,9 @@
                         
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fad85d" v-pre>
+                            <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 32px; height: 32px; border-radius: 50%"> 
+                                {{ Auth::user()->name }}
                             </a>
 
                             <!-- Dropdown Menu -->
