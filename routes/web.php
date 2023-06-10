@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
@@ -31,7 +33,7 @@ Route::post('/registration', [AuthController::class, 'registrasi'])->middleware(
 Route::get('/list', [ProductController::class, 'index'])->name('showProduct')->middleware(['auth']);
 Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth']);
 Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth']);
-Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->middleware(['auth']);
+Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
 Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth']);
 Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth']);
 
@@ -46,3 +48,8 @@ Route::get('/history', [CartController::class, 'history']);
 
 Route::get('/topup/{id}', [UserController::class, 'edit']);
 Route::post('/topup-process/{id}', [UserController::class, 'update']);
+
+Route::get('/library', [GameController::class, 'index']);
+
+Route::get('/setting/{id}', [UserController::class, 'editProfil']);
+Route::post('/user/{id}/update', [UserController::class, 'updateProfil']);

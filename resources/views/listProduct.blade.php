@@ -28,6 +28,8 @@
 </style>
 
 <body style="background-color: #202123">
+<!-- <body style="background-color: #e5fbfc"> -->
+<!-- <body style="background-image: url('gambar/wallpaper.jpg'); background-size: cover"> -->
 <div id="app">
     @include('layouts.navbar')
 </div>
@@ -113,14 +115,25 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
-                                ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
-                            <form action="{{ route('cart.add', $product) }}" method="POST">
-                            @csrf
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
-                                </button>
-                            </form>
+                        @php
+                        $game = App\Models\Game::where('user_id', Auth::user()->id)
+                            ->where('product_id', $product->id)
+                            ->first();
+                    @endphp
+                    @if ($game)
+                        <a href="/library" class="btn btn-primary">
+                            <i class="bi bi-folder2-open"></i> Lihat Library
+                        </a>
+                            @else
+                                <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
+                                    ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
+                                <form action="{{ route('cart.add', $product) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-cart-plus"></i> Tambahkan ke Keranjang
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -23,8 +23,9 @@ class CartController extends Controller
             return $cart->quantity * $cart->product->price;
         });
         $totalProducts = $carts->where('checkout', 0)->count();
+        $gameCount = Game::where('user_id', auth()->id())->count();
 
-        return view('cart', compact('carts', 'totalAmount', 'totalProducts'));
+        return view('cart', compact('carts', 'totalAmount', 'totalProducts', 'gameCount'));
     }
 
     // addToCart
@@ -66,6 +67,15 @@ class CartController extends Controller
     public function addToCart(Request $request, $id) {
         $product = Product::where('id', $id)->first();
         $date = Carbon::now();
+        $user = Auth::user();
+
+        $existingGame = Game::where('user_id', $user->id)
+        ->where('product_id', $product->id)
+        ->first();
+
+        if ($existingGame) {
+            return redirect()->back()->with('error', 'Produk sudah ada dalam koleksi Anda.');
+        }
 
         $orderCheck = Order::where('user_id', auth()->id())
             ->where('status', 0)
@@ -125,7 +135,6 @@ public function checkout()
 
     // Retrieve the cart items for the current user
     $cartItems = Cart::where('user_id', $user->id)->get();
-    $orders = Cart::where('user_id', $user->id)->get();
     $checkoutItems = $cartItems->where('checkout', 0);
     $balanceBefore = $user->balance;
 
@@ -141,7 +150,6 @@ public function checkout()
     }
 
     // Update the user's balance
-
     $user->balance -= $totalAmount;
     $user->save();
 
@@ -150,10 +158,8 @@ public function checkout()
         $item->checkout = 1; // Set checkout flag to 1 indicating the item has been checked out
         $item->save();
 
-        // $game = new Game();
-        // $game->user_id = $item->user_id;
-        // $game->product_id = $item->product_id;
-        // $game->save();
+        // Create a game entry for the user
+        
     });
 
     // Update the status of the order to 1
@@ -164,9 +170,21 @@ public function checkout()
         $order->save();
     }
 
+    foreach ($cartItems as $item) {
+        $existingGame = Game::where('user_id', $user->id)
+            ->where('product_id', $item->product_id)
+            ->first();
+
+        if (!$existingGame) {
+            $game = new Game;
+            $game->user_id = $user->id;
+            $game->product_id = $item->product_id;
+            $game->save();
+        }
+    }
+
     return redirect()->back()->with('success', 'Checkout successful!');
 }
-
     public function history() {
         $user = Auth::user();
 

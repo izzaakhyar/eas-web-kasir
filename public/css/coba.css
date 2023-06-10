@@ -7,6 +7,12 @@ body {
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s;
     border-color: white;
+    border-radius: 40px; 
+       overflow: hidden;
+       border: 0;
+       box-shadow: 0 2px 20px rgba(43, 27, 77, 5),
+                   0 2px 4px rgba(43, 27, 77, 5);
+       transition: all 0.15s ease;
 }
 
 .card:hover {

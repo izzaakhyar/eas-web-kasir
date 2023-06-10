@@ -7,6 +7,8 @@ use Illuminate\support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Cart;
+use App\Models\Game;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -28,8 +30,9 @@ class ProductController extends Controller
             ->get();
         $totalProducts = $carts->where('checkout', 0)->count();
         
+        $gameCount = Game::where('user_id', auth()->id())->count();
         // all();
-        return view('listProduct', compact('products', 'totalProducts'));
+        return view('listProduct', compact('products', 'totalProducts', 'gameCount'));
     }
 
     public function totalProduct() {
@@ -87,13 +90,14 @@ class ProductController extends Controller
 
     public function edit(string $id)
     {
-        $products = \App\Models\Product::find($id);
+        $products = Product::find($id);
         $carts = Cart::with('product')
             ->where('user_id', auth()->id())
             ->where('checkout', 0) // Hanya ambil produk dengan nilai checkout = 0
             ->get();
         $totalProducts = $carts->where('checkout', 0)->count();
-        return view('edit', compact('products', 'totalProducts'));
+        $gameCount = Game::where('user_id', auth()->id())->count();
+        return view('edit', compact('products', 'totalProducts', 'gameCount'));
     }
 
     public function update(Request $request, $id)

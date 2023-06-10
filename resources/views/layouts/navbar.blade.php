@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md shadow-sm" style="background-color: #2b1b4d">
         <div class="container">
-            <a class="navbar-brand" href="/list" style="align-content: center;"><img src="gambar/Logo-GameVerse.png"
+            <a class="navbar-brand" href="/list" style="align-content: center;"><img src="{{ asset('gambar/Logo-GameVerse.png') }}"
             class="img-fluid" alt="Sample image" style="width: 40px; height: 40px"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                 <span class="navbar-toggler-icon"></span>
@@ -43,16 +43,21 @@
                         
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #fad85d" v-pre>
-                            <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 32px; height: 32px; border-radius: 50%"> 
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f2e6d8" v-pre>
+                            <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 28px; height: 28px; margin-right: 3%; border-radius: 50%"> 
                                 {{ Auth::user()->name }}
                             </a>
 
                             <!-- Dropdown Menu -->
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
                                 <div class="balance dropdown-item">
-                                    <p style="margin-bottom:0"><strong><i class="bi bi-controller"></i> Games</i></strong></p>
-                                    <small style="margin-left:23px">0 Games Owned</small>
+                                    @php
+                                        $gameCount = App\Models\Game::where('user_id', auth()->id())->count();
+                                    @endphp
+                                    <a href="/library" style="text-decoration: none; color: black">
+                                    <p style="margin-bottom:0"><strong><i class="bi bi-controller"></i> Library</i></strong></p>
+                                    <small style="margin-left:23px">{{ $gameCount }} Games Owned</small>
+                                    </a>
                                 </div>
                                 <div class="balance dropdown-item">
                                     <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong></p>
@@ -75,7 +80,7 @@
                                     <!-- <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small> -->
                                 </div>
                                 <div>
-                                    <a class="dropdown-item" href="#"><i class="bi bi-gear-fill"></i> <strong>Setting</strong><br>
+                                    <a class="dropdown-item" href="/setting/{{ Auth::user()->id }}"><i class="bi bi-gear-fill"></i> <strong>Setting</strong><br>
                                 </div>
 
                                 <div class="dropdown-divider"></div>

@@ -23,13 +23,18 @@
     <!-- <link rel="stylesheet" href="{{ URL::asset('css/coba.css') }}"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-</head>
+</head> 
 @include('layouts.navbar')
+<style>
+    h4, label {
+        color: white;
+    }
+</style>
 
 <body style="background-color: #202123">
 <div class="container" style="margin-top: 4%">
     <a class="btn btn-primary mb-2" href="/list">Kembali</a>
-    <div class="card" style="background-color: #372957">
+    <div class="card" style="background-color: #202123; border-color: white">
         <div class="card-body">
             <h4 class="my-auto">Master Produk</h4>
             <hr>
