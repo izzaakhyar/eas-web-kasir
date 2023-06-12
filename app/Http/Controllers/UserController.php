@@ -60,20 +60,23 @@ class UserController extends Controller
     }
 
     public function updateProfil(Request $request, $id) {
-        $users = User::find($id);
+        // $users = User::find($id);
 
-        if ($request->hasFile('avatar')) {
-            // $imagePath = $request->file('image_url')->store('storage/products');
-            // $image_url = basename($imagePath);
-            $image = $request->file('avatar');
-            $imageName = $image->getClientOriginalName();
-            $imagePath = $image->move('storage/products', $imageName);
-            $image_url = basename($imagePath);
-        } else {
-            $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
-        }
+        
 
-        $users->update($request->all());
-        return redirect('/list')->with('sukses','Data berhasil diupdate');
+        // $users->update($request->all());
+        // return redirect('/list')->with('sukses','Data berhasil diupdate');
+        $user = User::find($id);
+
+    if ($request->hasFile('avatar')) {
+        $image = $request->file('avatar');
+        $imageName = $image->getClientOriginalName();
+        $imagePath = $image->move(public_path('storage/products'), $imageName);
+        $image_url = basename($imagePath);
+        $user->avatar = $image_url;
+    }
+
+    $user->update($request->except('avatar'));
+    return redirect('/list')->with('sukses','Data berhasil diupdate');
     }
 }

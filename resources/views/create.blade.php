@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}"> -->
-    <title>GameVerse</title>
+    <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}">
+    <title>Tambah Produk</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -40,7 +40,7 @@
             <hr>
             <form method="POST" action="/addproduct" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="name">Nama*</label>
                     <input id="name" class="form-control" type="text" name="name" value="{{ old('name') }}">
                     @error('name')
@@ -60,6 +60,11 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Cover</label>
                     <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="image_url" value="{{ old('image_url') }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Portrait Cover</label>
+                    <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="portrait_cover" value="{{ old('portrait_cover') }}">
                 </div>
                 <!-- <div class="form-group">
                     <label for="description">Description*</label>

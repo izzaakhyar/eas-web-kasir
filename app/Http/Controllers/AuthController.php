@@ -15,13 +15,27 @@ class AuthController extends Controller
     }
     
     public function registrasi(Request $request) {
+        if ($request->hasFile('avatar')) {
+            // $imagePath = $request->file('image_url')->store('storage/products');
+            // $image_url = basename($imagePath);
+            $image = $request->file('avatar');
+            $imageName = $image->getClientOriginalName();
+            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $image_url = basename($imagePath);
+
+            // $users->avatar = $image_url;
+        } else {
+            $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
+        }
         $user = DB::table('users')->get();
         $password = bcrypt($request->password);
+        
         DB::table('users')->insert([
             'name'=>$request->name,
             'password'=>$password,
             // ''=>$request->role,
-            'email'=>$request->email
+            'email'=>$request->email,
+            'avatar' => $image_url,
         ]);
 
         return redirect('/');

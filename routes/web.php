@@ -31,25 +31,28 @@ Route::post('/registration', [AuthController::class, 'registrasi'])->middleware(
 
 // CRUD Produk
 Route::get('/list', [ProductController::class, 'index'])->name('showProduct')->middleware(['auth']);
-Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth']);
-Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth']);
+Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth', 'role: Admin']);
+Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth', 'role: Admin']);
 Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
-Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth']);
-Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth']);
+Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth', 'role: Admin']);
+Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth', 'role: Admin']);
 
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->middleware(['auth']);
 Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add')->middleware(['auth']);
-Route::post('/cart/{productId}', [CartController::class, 'deleteProduct']);
+Route::post('/cart/{productId}', [CartController::class, 'deleteProduct'])->middleware(['auth']);
+Route::post('/checkout', [CartController::class, 'checkout'])->middleware(['auth']);
 
-Route::post('/checkout', [CartController::class, 'checkout']);
+// Order History
+Route::get('/history', [CartController::class, 'history'])->middleware(['auth']);
 
-Route::get('/history', [CartController::class, 'history']);
+// Top Up
+Route::get('/topup/{id}', [UserController::class, 'edit'])->middleware(['auth']);
+Route::post('/topup-process/{id}', [UserController::class, 'update'])->middleware(['auth']);
 
-Route::get('/topup/{id}', [UserController::class, 'edit']);
-Route::post('/topup-process/{id}', [UserController::class, 'update']);
+// Game Library
+Route::get('/library', [GameController::class, 'index'])->middleware(['auth']);
 
-Route::get('/library', [GameController::class, 'index']);
-
-Route::get('/setting/{id}', [UserController::class, 'editProfil']);
-Route::post('/user/{id}/update', [UserController::class, 'updateProfil']);
+// Edit Profil
+Route::get('/setting/{id}', [UserController::class, 'editProfil'])->middleware(['auth']);
+Route::post('/user/{id}/update', [UserController::class, 'updateProfil'])->middleware(['auth']);

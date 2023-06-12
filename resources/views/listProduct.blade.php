@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}"> -->
-    <title>GameVerse</title>
+    <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}">
+    <title>GameVerse store</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,12 +24,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <style>
-    
+    .btn-next {
+        background-color: #8e69f3;
+    }
 </style>
 
 <body style="background-color: #202123">
 <!-- <body style="background-color: #e5fbfc"> -->
 <!-- <body style="background-image: url('gambar/wallpaper.jpg'); background-size: cover"> -->
+
+@if (Auth::user()->role == 'Admin')
 <div id="app">
     @include('layouts.navbar')
 </div>
@@ -43,6 +47,13 @@
             <a class="btn btn-secondary mb-2 ml-auto" href="/history" style="margin-top:8px"><i class="bi bi-receipt"></i><span class="hover-text"> <i>Riwayat Transaksi</i></span></a>
         </div>
     </div>
+
+    @else
+    <div id="app" style="margin-bottom: 2%">
+        @include('layouts.navbar')
+    </div>
+    <div class="container-fluid">
+    @endif
 
     <div class="row">
         @foreach($products as $product)
@@ -71,11 +82,12 @@
         </div>
         @endforeach
         
-        <div class="row justify-content-center" style="margin-top: 0px">
+        @if (Auth::user()->role == 'Admin')
+        <div class="row justify-content-center" style="margin-top: -10px">
             <div class="col-auto">
                 <!-- Tombol Previous -->
                 @if ($products->currentPage() > 1)
-                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light btn-sm">
                         <i class="bi bi-chevron-left"></i>
                         <span class="hover-text"><i>Previous</i></span>
                     </a>
@@ -84,14 +96,37 @@
             <div class="col-auto">
                 <!-- Tombol Next -->
                 @if ($products->hasMorePages())
-                    <a href="{{ $products->nextPageUrl() }}" class="btn btn-secondary btn-outline-light">
+                    <a href="{{ $products->nextPageUrl() }}" class="btn btn-next btn-outline-light btn-sm">
                         <span class="hover-text"><i>Next</i></span>
-                        <i class="bi bi-chevron-right"></i>
+                        <i class="bi bi-chevron-right bi-xs"></i>
                     </a>
                 @endif
             </div>
         </div>
+        @else
+        <div class="row justify-content-center" style="margin-top: 0px">
+            <div class="col-auto">
+                <!-- Tombol Previous -->
+                @if ($products->currentPage() > 1)
+                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light btn-sm">
+                        <i class="bi bi-chevron-left"></i>
+                        <span class="hover-text"><i>Previous</i></span>
+                    </a>
+                @endif
+            </div>
+            <div class="col-auto">
+                <!-- Tombol Next -->
+                @if ($products->hasMorePages())
+                    <a href="{{ $products->nextPageUrl() }}" class="btn btn-secondary btn-outline-light btn-sm">
+                        <span class="hover-text"><i>Next</i></span>
+                        <i class="bi bi-chevron-right bi-xs"></i>
+                    </a>
+                @endif
+            </div>
+        </div>
+        @endif
 
+        @if (Auth::user()->role == 'Admin')
         @foreach ($products as $product)
             <div class="modal fade" id="myModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog modal-lg" role="document">
@@ -103,13 +138,47 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" class="img-fluid">                 
+                                    <img src="{{ asset('storage/products/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
                                 </div>
                                 <div class="col-md-6">
                                     <p><strong>{{$product->name}}</strong></p>
                                     <p><strong>Deskripsi:</strong></p>
                                     <p>{{$product->description}}</p>
-                                    <p><strong>Stok:</strong> {{ $product->stock }}</p>
+                                    <p><strong>Stok:</strong> </p>
+                                    <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        
+                                <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
+                                    ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        @else
+        @foreach ($products as $product)
+            <div class="modal fade" id="myModal{{$product->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">{{$product->name}}</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img src="{{ asset('storage/products/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>{{$product->name}}</strong></p>
+                                    <p><strong>Deskripsi:</strong></p>
+                                    <p>{{$product->description}}</p>
+                                    <p><strong>Stok:</strong> </p>
                                     <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
                                 </div>
                             </div>
@@ -125,8 +194,7 @@
                             <i class="bi bi-folder2-open"></i> Lihat Library
                         </a>
                             @else
-                                <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
-                                    ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
+                                
                                 <form action="{{ route('cart.add', $product) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">
@@ -139,6 +207,7 @@
                 </div>
             </div>
         @endforeach
+        @endif
     </div>
 </div>
 

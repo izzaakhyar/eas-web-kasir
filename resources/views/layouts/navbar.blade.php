@@ -28,18 +28,28 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                        @endif
+                    
+                        @if (Auth::user()->role == 'Admin')
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f2e6d8" v-pre>
+                            <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 28px; height: 28px; margin-right: 3%; border-radius: 50%"> 
+                                {{ Auth::user()->name }}
+                            </a>
 
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
+                            <!-- Dropdown Menu -->
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
+                                
+                                <div class="balance dropdown-item">
+                                    <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong></p>
+                                    <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small>
+                                </div>
+                                <div class="balance dropdown-item">
+                                    <a href="/history" style="text-decoration: none">
+                                        <p style="margin-bottom:0"><strong><i class="bi bi-arrow-counterclockwise"> Order Histoy</i></strong></p>
+                                    </a>
+                                    <!-- <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small> -->
+                                </div>
+                                
                         
                         @else
                         <li class="nav-item dropdown">
@@ -82,7 +92,7 @@
                                 <div>
                                     <a class="dropdown-item" href="/setting/{{ Auth::user()->id }}"><i class="bi bi-gear-fill"></i> <strong>Setting</strong><br>
                                 </div>
-
+                        @endif
                                 <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="color:red"><i class="bi bi-box-arrow-left"></i> {{ __('Logout') }}</a>
                                     <form id="logout-form" action="/logout" method="POST" style="display: none;">
@@ -91,7 +101,7 @@
                                 </div>
                             </div>
                         </li>
-                    @endguest
+                    
                 </ul>
             </div>
         </div>
@@ -167,12 +177,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <h6><small>atau masukkan nominal disini: </small></h6>
-                    <div class="col-md-12">
-                         <label class="col-md-12" style="display: inline-block; width: 100%;">
-                            <input type="text" name="balance" id="inputText" value="" class="col-md-12" style="border-radius: 1%" oninput="disableRadioButtons()"> 
-                        </label>
-                    </div> -->
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Top Up</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

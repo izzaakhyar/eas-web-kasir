@@ -51,4 +51,13 @@ class User extends Authenticatable
     public function game() {
         return $this->hasMany(Game::class, 'user_id', 'id');
     }
+
+    public function hasRole(string $role): bool {
+        return $this->role === $role;
+    }
+
+    public function games()
+    {
+        return $this->hasMany(Game::class);
+    }
 }

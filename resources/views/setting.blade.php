@@ -29,13 +29,13 @@
 
 <div class="container" style="margin-top: 5%">
     <a class="btn btn-primary mb-2" href="/list">Kembali</a>
-    <form action="/user/{{$users->id}}/update" method="POST">
+    <form action="/user/{{$users->id}}/update" method="POST" enctype="multipart/form-data">
                 {{csrf_field()}}
     <div class="card">
     <div class="card-body media align-items-center">
   <div class="d-grid gap-3">
     <div class="d-flex">
-      <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-80 img-fluid">
+      <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="" class="d-block ui-w-80 img-fluid" style="height: 300px; width: 300px; border: 1px solid black; border-radius: 50%">
       <div class="form-group flex-grow-1" style="margin-left: 1%; margin-top: 5.5%">
         <label class="form-label">Username</label>
         <input type="text" class="form-control mb-1" value="nmaxwell">

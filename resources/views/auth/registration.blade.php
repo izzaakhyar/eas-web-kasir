@@ -8,7 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Kasir</title>
+    <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}">
+    <title>Sign Up</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -34,7 +35,7 @@
 
                 <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4" style="color: #fad85d">Sign up</p>
 
-                <form action="/registration" method="post">
+                <form action="/registration" method="post" enctype="multipart/form-data">
                   @csrf
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
@@ -74,6 +75,11 @@
                       I agree all statements in <a href="#!">Terms of service</a>
                     </label>
                   </div> -->
+
+                  <div class="mb-3">
+                    <label for="image" class="form-label">Cover</label>
+                    <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="avatar" value="">
+                  </div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Register</button>

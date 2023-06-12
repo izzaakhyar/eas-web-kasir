@@ -8,8 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}"> -->
-    <title>GameVerse</title>
+    <link rel="shortcut icon" href="{{ asset('gambar/Logo-GameVerse.png') }}">
+    <title>Edit Produk</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -24,18 +24,23 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 @include('layouts.navbar')
+<style>
+    h4, label {
+        color: white;
+    }
+</style>
 
 <body style="background-color: #202123">
 
 <div class="container" style="margin-top: 5%">
     <a class="btn btn-primary mb-2" href="/list">Kembali</a>
-    <div class="card">
+    <div class="card" style="background-color: #202123; border-color: white">
         <div class="card-body">
-            <h4 class="my-auto">Master Produk</h4>
+            <h4 class="my-auto">Edit Produk</h4>
             <hr>
             <form action="/product/{{$products->id}}/update" method="POST">
                 {{csrf_field()}}
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <label for="name">Nama*</label>
                     <input id="name" class="form-control" type="text" name="name" value="{{ $products->name }}">
                     @error('name')
@@ -55,6 +60,11 @@
                 <div class="mb-3">
                     <label for="image" class="form-label">Cover</label>
                     <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="image_url" value="{{ $products->image_url }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="image" class="form-label">Portrait Cover</label>
+                    <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="portrait_cover" value="{{ $products->portrait_cover }}">
                 </div>
                 <!-- <div class="form-group">
                     <label for="description">Description*</label>

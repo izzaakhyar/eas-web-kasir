@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Game;
+use App\Models\User;
 use Auth;
 
 class ProductController extends Controller
@@ -30,9 +31,19 @@ class ProductController extends Controller
             ->get();
         $totalProducts = $carts->where('checkout', 0)->count();
         
-        $gameCount = Game::where('user_id', auth()->id())->count();
+        $user_id = auth()->id();
+
+        $gameCount = Game::where('user_id', $user_id)
+            ->groupBy('product_id')
+            ->selectRaw('count(*) as count')
+            ->get()
+            ->count();
+        $totalUsers =Game::groupBy('user_id')
+        ->selectRaw('count(*) as count')
+        ->get()
+        ->count();
         // all();
-        return view('listProduct', compact('products', 'totalProducts', 'gameCount'));
+        return view('listProduct', compact('products', 'totalProducts', 'gameCount', 'totalUsers'));
     }
 
     public function totalProduct() {
@@ -69,16 +80,26 @@ class ProductController extends Controller
         $imageName = $image->getClientOriginalName();
         $imagePath = $image->move('storage/products', $imageName);
         $image_url = basename($imagePath);
+    } if ($request->hasFile('portrait_cover')) {
+        // $imagePath = $request->file('image_url')->store('storage/products');
+        // $image_url = basename($imagePath);
+        $imagePortrait = $request->file('portrait_cover');
+        $imageNamePortrait = $imagePortrait->getClientOriginalName();
+        $imagePathPortrait = $imagePortrait->move('storage/products', $imageNamePortrait);
+        $image_portrait = basename($imagePathPortrait);
     } else {
         $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
     }
+
+     
     
     // Simpan data ke database
     DB::table('products')->insert([
         'name' => $request->name,
         'price' => $request-> price,
         'description' => $request->description,
-        'image_url' => $image_url, // Kolom untuk menyimpan nama gambar
+        'image_url' => $image_url,
+        'portrait_cover' => $image_portrait, // Kolom untuk menyimpan nama gambar
     ]);
 
     //$imageUrl = Storage::url('products/' . $image_url);
