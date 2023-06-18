@@ -87,9 +87,14 @@
             <div class="col-auto">
                 <!-- Tombol Previous -->
                 @if ($products->currentPage() > 1)
-                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-secondary btn-outline-light btn-sm">
-                        <i class="bi bi-chevron-left"></i>
+                    <!-- <a href="{{ $products->previousPageUrl() }}" class="btn btn-next btn-outline-light btn-sm">
+                        
                         <span class="hover-text"><i>Previous</i></span>
+                        <i class="bi bi-chevron-left bi-xs"></i>
+                    </a> -->
+                    <a href="{{ $products->previousPageUrl() }}" class="btn btn-next btn-outline-light btn-sm">
+                        <span class="hover-text"><i>Previous</i></span>
+                        <i class="bi bi-chevron-left bi-xs"></i>
                     </a>
                 @endif
             </div>
@@ -213,6 +218,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@include('sweetalert::alert')
 <script>
     function disableInputText() {
         document.getElementById('inputText').disabled = true;

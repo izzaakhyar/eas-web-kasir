@@ -31,11 +31,11 @@ Route::post('/registration', [AuthController::class, 'registrasi'])->middleware(
 
 // CRUD Produk
 Route::get('/list', [ProductController::class, 'index'])->name('showProduct')->middleware(['auth']);
-Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth', 'role: Admin']);
-Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth', 'role: Admin']);
+Route::get('/create', [ProductController::class, 'add'])->name('create')->middleware(['auth']);
+Route::post('/addproduct', [ProductController::class, 'create'])->middleware(['auth']);
 Route::get('/product/{id}/edit', [ProductController::class, 'edit']);
-Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth', 'role: Admin']);
-Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth', 'role: Admin']);
+Route::post('/product/{id}/update', [ProductController::class, 'update'])->middleware(['auth']);
+Route::get('/product/{id}/delete', [ProductController::class, 'delete'])->middleware(['auth']);
 
 // Cart
 Route::get('/cart', [CartController::class, 'index'])->middleware(['auth']);

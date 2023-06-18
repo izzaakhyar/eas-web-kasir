@@ -38,7 +38,7 @@
       <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="" class="d-block ui-w-80 img-fluid" style="height: 300px; width: 300px; border: 1px solid black; border-radius: 50%">
       <div class="form-group flex-grow-1" style="margin-left: 1%; margin-top: 5.5%">
         <label class="form-label">Username</label>
-        <input type="text" class="form-control mb-1" value="nmaxwell">
+        <input type="text" class="form-control mb-1" value="nmaxwell" name="name">
 
         <label for="image" class="form-label">Avatar</label>
         <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="avatar" value="{{ $users->avatar }}">
@@ -59,6 +59,8 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+@include('sweetalert::alert')
 </body>
 
  <!-- <h4 class="my-auto">Master Produk</h4>

@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Session;
 class OrderController extends Controller
 {
     public function orderHistory()
-{
-    $orders = Order::with('products')->where('user_id', auth()->id())->get();
+    {
+        $orders = Order::with('products')->where('user_id', auth()->id())->get();
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
     }
 
     public function order() {
-        
+            
     }
 }

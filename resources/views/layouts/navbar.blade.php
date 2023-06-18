@@ -40,8 +40,11 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
                                 
                                 <div class="balance dropdown-item">
+                                    @php
+                                        $adminBalance = App\Models\Order::sum('total_price');
+                                    @endphp
                                     <p style="margin-bottom:0"><strong><i class="bi bi-wallet2"> Balance</i></strong></p>
-                                    <small style="margin-left:23px">Rp {{ number_format(Auth::user()->balance, 0, ',', '.') }}</small>
+                                    <small style="margin-left:23px">Rp {{ number_format($adminBalance, 0, ',', '.') }}</small>
                                 </div>
                                 <div class="balance dropdown-item">
                                     <a href="/history" style="text-decoration: none">
@@ -58,8 +61,9 @@
                                 {{ Auth::user()->name }}
                             </a>
 
+                            <!-- background-color: #202123 -->
                             <!-- Dropdown Menu -->
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" style="width:300px;">
                                 <div class="balance dropdown-item">
                                     @php
                                         $gameCount = App\Models\Game::where('user_id', auth()->id())->count();

@@ -38,7 +38,7 @@
         <div class="card-body">
             <h4 class="my-auto">Edit Produk</h4>
             <hr>
-            <form action="/product/{{$products->id}}/update" method="POST">
+            <form action="/product/{{$products->id}}/update" method="POST" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <div class="form-group mb-3">
                     <label for="name">Nama*</label>

@@ -124,7 +124,21 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $products = \App\Models\Product::find($id);
-        $products->update($request->all());
+        if ($request->hasFile('image_url')) {
+            $image = $request->file('image_url');
+            $imageName = $image->getClientOriginalName();
+            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $image_url = basename($imagePath);
+            $products->image_url = $image_url;
+        } if ($request->hasFile('portrait_cover')) {
+            $image = $request->file('portrait_cover');
+            $imageName = $image->getClientOriginalName();
+            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $image_url = basename($imagePath);
+            $products->portrait_cover = $image_url;
+        }
+        $products->update($request->except('image_url', 'portrait_cover'));
+        // $products->update($request->all());
         return redirect('/list')->with('sukses','Data berhasil diupdate');
     }
 
