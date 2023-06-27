@@ -30,7 +30,7 @@
 @include('layouts.navbar')
 </div>
 
-<div class="container">
+<div class="container" style="padding-top: 4%; margin-bottom: 0">
     <div class="row justify-content-center align-items-center" style="height: 60vh;">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center">
@@ -66,7 +66,7 @@
                                     @foreach ($carts as $cart)
                                         <tr>
                                             <td>
-                                                <img src="{{ asset('storage/products/' . $cart->product->image_url) }}" alt="{{ $cart->product->name }}" class="img-thumbnail" style="max-width: 100px;">
+                                                <img src="{{ asset('produk/' . $cart->product->image_url) }}" alt="{{ $cart->product->name }}" class="img-thumbnail" style="max-width: 100px;">
                                             </td>
                                             <td>{{ $cart->product->name }}</td>
                                             <td>
@@ -98,7 +98,7 @@
                         @if ($totalAmount > Auth::user()->balance)
                         
                             <div class="text d-flex justify-content-start" style="margin-right: 10px;">
-                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                            <a href="/topup/{{ Auth::user()->id }}" style="text-decoration: none" data-toggle="modal" data-target="#topUpModal{{Auth::user()->id}}" class="btn btn-secondary">
                                     <i class="bi bi-cash-stack"></i> Top Up Saldo
                                 </a>
                             </div>
@@ -113,7 +113,7 @@
                         @else 
                         
                         <div class="text d-flex justify-content-start" style="margin-right: 10px;">
-                                <a href="/checkout" class="btn btn-secondary" title="Klik untuk melakukan checkout">
+                        <a href="/topup/{{ Auth::user()->id }}" style="text-decoration: none" data-toggle="modal" data-target="#topUpModal{{Auth::user()->id}}" class="btn btn-secondary">
                                     <i class="bi bi-cash-stack"></i> Top Up Saldo
                                 </a>
                             </div>

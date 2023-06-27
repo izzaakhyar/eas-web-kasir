@@ -94,8 +94,8 @@
     @foreach ($games as $game)
 <div class="col-sm-2">
 <div class="card-body d-flex">
-    <div class="main_container-fluid mx-auto text-center" data-aos="fade-left" data-aos-duration="1000">
-        <img src="{{ asset('storage/products/' . $game->product->portrait_cover) }}"
+    <div class="main_container-fluid mx-auto text-center" data-aos="fade-down" data-aos-duration="1000">
+        <img src="{{ asset('produk/' . $game->product->portrait_cover) }}"
             class="img-fluid" alt="Sample image">
         <div class="overlay">
             <!-- <h1 class="game-title">{{ $game->product->name }}</h1>

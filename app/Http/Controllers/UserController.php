@@ -62,7 +62,7 @@ class UserController extends Controller
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $imageName = $image->getClientOriginalName();
-            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $imagePath = $image->move(public_path('avatar'), $imageName);
             $image_url = basename($imagePath);
             $user->avatar = $image_url;
         }

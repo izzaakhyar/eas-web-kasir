@@ -35,10 +35,10 @@
     <div class="card-body media align-items-center">
   <div class="d-grid gap-3">
     <div class="d-flex">
-      <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="" class="d-block ui-w-80 img-fluid" style="height: 300px; width: 300px; border: 1px solid black; border-radius: 50%">
+      <img src="{{ asset('avatar/' . Auth::user()->avatar) }}" alt="" class="d-block ui-w-80 img-fluid" style="height: 300px; width: 300px; border: 1px solid black; border-radius: 50%">
       <div class="form-group flex-grow-1" style="margin-left: 1%; margin-top: 5.5%">
         <label class="form-label">Username</label>
-        <input type="text" class="form-control mb-1" value="nmaxwell" name="name">
+        <input type="text" class="form-control mb-1" value="{{ $users->name }}" name="name">
 
         <label for="image" class="form-label">Avatar</label>
         <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="avatar" value="{{ $users->avatar }}">

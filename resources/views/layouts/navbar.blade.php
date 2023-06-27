@@ -57,7 +57,7 @@
                         @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f2e6d8" v-pre>
-                            <img src="{{ asset('storage/products/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 28px; height: 28px; margin-right: 3%; border-radius: 50%"> 
+                            <img src="{{ asset('avatar/' . Auth::user()->avatar) }}" alt="Profil {{ Auth::user()->name }}" class="img-fluid" style="width: 28px; height: 28px; margin-right: 3%; border-radius: 50%"> 
                                 {{ Auth::user()->name }}
                             </a>
 

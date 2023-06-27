@@ -82,7 +82,7 @@
             <td>
               <div class="d-flex mb-2">
                 <div class="flex-shrink-0">
-                  <img src="{{ asset('storage/products/' . $item->product->image_url) }}" alt="{{ $item->product->name }}" class="img-thumbnail" style="max-width: 100px;">
+                  <img src="{{ asset('produk/' . $item->product->image_url) }}" alt="{{ $item->product->name }}" class="img-thumbnail" style="max-width: 100px;">
                 </div>
                 <div class="flex-lg-grow-1 ms-3">
                   <h6 class="small mb-0" style="color: white"><a href="#" class="text-reset" style="text-decoration: none">{{ $item->product->name }}</a></h6>

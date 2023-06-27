@@ -64,7 +64,7 @@
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center mb-3">
                             @if (strlen($product->image_url) > 0)
-                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px;" class="img-fluid">
+                                <img src="{{ asset('produk/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px;" class="img-fluid">
                             @else
                                 <span class="text-muted">Gambar tidak tersedia</span>
                             @endif
@@ -143,10 +143,10 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img src="{{ asset('storage/products/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
+                                    <img src="{{ asset('produk/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
                                 </div>
                                 <div class="col-md-6">
-                                    <p><strong>{{$product->name}}</strong></p>
+                                    
                                     <p><strong>Deskripsi:</strong></p>
                                     <p>{{$product->description}}</p>
                                     
@@ -177,10 +177,10 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img src="{{ asset('storage/products/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
+                                    <img src="{{ asset('produk/' . $product->portrait_cover) }}" alt="{{ $product->name }}" class="img-fluid">                 
                                 </div>
                                 <div class="col-md-6">
-                                    <p><strong>{{$product->name}}</strong></p>
+                                    
                                     <p><strong>Deskripsi:</strong></p>
                                     <p>{{$product->description}}</p>
                                    

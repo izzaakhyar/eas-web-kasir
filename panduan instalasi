@@ -1,0 +1,5 @@
+Jalankan 'composer update' pada terminal
+Setelah itu 'php artisan key:generate'
+hapus '.example' pada penamaan file '.env.example' dan ubah nama databasenya
+Import database yang ada pada folder 'file sql' ke localhost phpmyadmin
+Baru jalankan web dengan 'php artisan serve'

@@ -18,7 +18,7 @@ class AuthController extends Controller
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $imageName = $image->getClientOriginalName();
-            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $imagePath = $image->move(public_path('avatar'), $imageName);
             $image_url = basename($imagePath);
         } else {
             $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
