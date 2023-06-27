@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->Integer('price');
             $table->string('image_url')->default('');
+            $table->string('portrait_cover');
             $table->string('description', 500);
             $table->timestamps();
         });

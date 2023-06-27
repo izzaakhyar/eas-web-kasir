@@ -61,10 +61,13 @@
                     </div>
                   </div>
 
-                  <div class="mb-3">
-                    <label for="image" class="form-label">Cover</label>
+                  <div class="d-flex flex-row align-items-center mb-4">
+                  <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-4">
                     <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg" name="avatar" value="">
+                    <label class="form-label" for="form3Example3c" style="color: #eee">Foto Profil</label>
                   </div>
+</div>
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button type="submit" class="btn btn-primary btn-lg">Register</button>

@@ -38,7 +38,7 @@
     @include('layouts.navbar')
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 4%; margin-bottom: 0">
     <div class="d-flex justify-content-between">
         <div>
             <a class="btn btn-secondary mb-2 mr-auto" href="/create" style="margin-top:8px"><i class="bi bi-plus-square"></i><span class="hover-text"> <i>Tambah Produk</i></span></a>
@@ -52,7 +52,7 @@
     <div id="app" style="margin-bottom: 2%">
         @include('layouts.navbar')
     </div>
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding-top: 4%">
     @endif
 
     <div class="row">
@@ -64,7 +64,7 @@
                     <div class="card-body d-flex flex-column justify-content-between">
                         <div class="text-center mb-3">
                             @if (strlen($product->image_url) > 0)
-                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px; border: 1px solid white" class="img-fluid">
+                                <img src="{{ asset('storage/products/' . $product->image_url) }}" alt="{{ $product->name }}" style="max-height: 200px; width: 500px;" class="img-fluid">
                             @else
                                 <span class="text-muted">Gambar tidak tersedia</span>
                             @endif
@@ -73,8 +73,8 @@
                             <h5 class="card-title" style="color: #f8f8f6">{{ $product->name }}</h5>
                             <p class="card-text"><small class="text-muted">Harga: Rp {{ number_format($product->price, 0, ',', '.') }}</small></p>
                         </div>
-                        <div>
-                            <a href="#" class="btn btn-primary btn-outline-light btn-block">Beli</a>
+                        <div style="text-align: center">
+                            <button class="btn btn-block" style="width: 50%; box-shadow: rgba(142, 105, 243, 0.3) 2px 2px 2px 2px; color: #eef5f6">Detail</button>
                         </div>
                     </div>
                 </div>
@@ -149,15 +149,15 @@
                                     <p><strong>{{$product->name}}</strong></p>
                                     <p><strong>Deskripsi:</strong></p>
                                     <p>{{$product->description}}</p>
-                                    <p><strong>Stok:</strong> </p>
+                                    
                                     <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                         
-                                <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
-                                    ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
+                            <a href="/product/{{$product->id}}/delete" class="btn btn-danger btn-sm" onclick="return confirm
+                                ('Apakah anda yakin ingin menghapus?')"><i class="bi bi-trash"></i></a>
                                 
                         </div>
                     </div>
@@ -183,7 +183,7 @@
                                     <p><strong>{{$product->name}}</strong></p>
                                     <p><strong>Deskripsi:</strong></p>
                                     <p>{{$product->description}}</p>
-                                    <p><strong>Stok:</strong> </p>
+                                   
                                     <p><strong>Harga:</strong> Rp {{ number_format($product->price) }}</p>
                                 </div>
                             </div>
@@ -220,6 +220,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 @include('sweetalert::alert')
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     function disableInputText() {
         document.getElementById('inputText').disabled = true;

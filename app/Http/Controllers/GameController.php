@@ -15,7 +15,7 @@ class GameController extends Controller
             ->select('games.*')
             ->where('games.user_id', $user_id) // Filter games owned by the logged-in user
             ->orderBy('products.name', 'asc')
-            ->simplePaginate(12);
+            ->simplePaginate(20);
         
         $gameCount = Game::where('user_id', $user_id)->count();
         

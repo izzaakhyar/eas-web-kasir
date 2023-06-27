@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
@@ -88,13 +88,13 @@
 
 <body style="background-color: #202123">
 <div class="d-flex justify-content-between">
-    <h2 style="color: white; margin-top: 1%; margin-left: 1%">{{ Auth::user()->name }}'s games</h2>
+    <h2 style="color: white; margin-top: 1%; margin-left: 1%; padding-top: 4%">{{ Auth::user()->name }}'s games</h2>
 </div>
 <div class="row mx-auto">
     @foreach ($games as $game)
 <div class="col-sm-2">
 <div class="card-body d-flex">
-    <div class="main_container-fluid mx-auto text-center">
+    <div class="main_container-fluid mx-auto text-center" data-aos="fade-left" data-aos-duration="1000">
         <img src="{{ asset('storage/products/' . $game->product->portrait_cover) }}"
             class="img-fluid" alt="Sample image">
         <div class="overlay">
@@ -111,16 +111,10 @@
 @endforeach
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-function downloadImage(imageUrl) {
-    var link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = {{$game->product->portrait_cover}}; // Ganti 'game_image.jpg' dengan nama file yang sesuai
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-}
-</script>
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
 
         

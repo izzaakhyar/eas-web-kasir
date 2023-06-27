@@ -32,7 +32,7 @@
 </style>
 
 <body style="background-color: #202123">
-<div class="container" style="margin-top: 4%">
+<div class="container" style="margin-top: 4%; padding-top: 4%">
     <a class="btn btn-primary mb-2" href="/list">Kembali</a>
     <div class="card" style="background-color: #202123; border-color: white">
         <div class="card-body">

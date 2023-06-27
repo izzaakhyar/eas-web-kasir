@@ -10,6 +10,7 @@ use App\Models\Cart;
 use App\Models\Game;
 use App\Models\User;
 use Auth;
+use Alert;
 
 class ProductController extends Controller
 {
@@ -43,6 +44,10 @@ class ProductController extends Controller
         ->get()
         ->count();
         // all();
+
+        $title = 'Delete User!';
+        $text = "Are you sure you want to delete?";
+        confirmDelete($title, $text);
         return view('listProduct', compact('products', 'totalProducts', 'gameCount', 'totalUsers'));
     }
 
@@ -73,40 +78,41 @@ class ProductController extends Controller
     {
         // Validasi request, jika diperlukan
     
-    if ($request->hasFile('image_url')) {
-        // $imagePath = $request->file('image_url')->store('storage/products');
-        // $image_url = basename($imagePath);
-        $image = $request->file('image_url');
-        $imageName = $image->getClientOriginalName();
-        $imagePath = $image->move('storage/products', $imageName);
-        $image_url = basename($imagePath);
-    } if ($request->hasFile('portrait_cover')) {
-        // $imagePath = $request->file('image_url')->store('storage/products');
-        // $image_url = basename($imagePath);
-        $imagePortrait = $request->file('portrait_cover');
-        $imageNamePortrait = $imagePortrait->getClientOriginalName();
-        $imagePathPortrait = $imagePortrait->move('storage/products', $imageNamePortrait);
-        $image_portrait = basename($imagePathPortrait);
-    } else {
-        $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
-    }
+        if ($request->hasFile('image_url')) {
+            // $imagePath = $request->file('image_url')->store('storage/products');
+            // $image_url = basename($imagePath);
+            $image = $request->file('image_url');
+            $imageName = $image->getClientOriginalName();
+            $imagePath = $image->move('produk', $imageName);
+            $image_url = basename($imagePath);
+        } if ($request->hasFile('portrait_cover')) {
+            // $imagePath = $request->file('image_url')->store('storage/products');
+            // $image_url = basename($imagePath);
+            $imagePortrait = $request->file('portrait_cover');
+            $imageNamePortrait = $imagePortrait->getClientOriginalName();
+            $imagePathPortrait = $imagePortrait->move('produk', $imageNamePortrait);
+            $image_portrait = basename($imagePathPortrait);
+        } else {
+            $imageName = null; // Atau Anda bisa menetapkan nilai default untuk gambar jika tidak ada yang diunggah
+        }
 
-     
-    
-    // Simpan data ke database
-    DB::table('products')->insert([
-        'name' => $request->name,
-        'price' => $request-> price,
-        'description' => $request->description,
-        'image_url' => $image_url,
-        'portrait_cover' => $image_portrait, // Kolom untuk menyimpan nama gambar
-    ]);
+        
+        
+        // Simpan data ke database
+        DB::table('products')->insert([
+            'name' => $request->name,
+            'price' => $request-> price,
+            'description' => $request->description,
+            'image_url' => $image_url,
+            'portrait_cover' => $image_portrait, // Kolom untuk menyimpan nama gambar
+        ]);
 
-    //$imageUrl = Storage::url('products/' . $image_url);
-    
-    // Redirect atau tindakan lain setelah upload berhasil
-    
-    return redirect('/list');
+        //$imageUrl = Storage::url('products/' . $image_url);
+        
+        // Redirect atau tindakan lain setelah upload berhasil
+        $message = "Game berhasil ditambahkan";
+        Alert::success('Success', $message);
+        return redirect('/list');
     }
 
     public function edit(string $id)
@@ -127,24 +133,28 @@ class ProductController extends Controller
         if ($request->hasFile('image_url')) {
             $image = $request->file('image_url');
             $imageName = $image->getClientOriginalName();
-            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $imagePath = $image->move(public_path('produk'), $imageName);
             $image_url = basename($imagePath);
             $products->image_url = $image_url;
         } if ($request->hasFile('portrait_cover')) {
             $image = $request->file('portrait_cover');
             $imageName = $image->getClientOriginalName();
-            $imagePath = $image->move(public_path('storage/products'), $imageName);
+            $imagePath = $image->move(public_path('produk'), $imageName);
             $image_url = basename($imagePath);
             $products->portrait_cover = $image_url;
         }
         $products->update($request->except('image_url', 'portrait_cover'));
         // $products->update($request->all());
+        $message = "Game berhasil diupdate";
+        Alert::success('Success', $message);
         return redirect('/list')->with('sukses','Data berhasil diupdate');
     }
 
     public function delete($id){
         $products = \App\Models\Product::find($id);
         $products->delete($products);
+
+        
         return redirect('/list')->with('sukses','Data berhasil dihapus');
     }
 

@@ -104,7 +104,9 @@ class CartController extends Controller
         $newCart->save();
 
         $message = "{$product->name} berhasil ditambahkan ke keranjang";
-        Alert::success('Success', $message);
+        // Alert::success('Success', $message);
+        alert()->html("{$product->name} berhasil ditambahkan ke keranjang",
+            "<a href='/cart' style='text-decoration: none'>Klik untuk lihat keranjang</a>", 'success');
         return redirect('/list');
     }
 

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md shadow-sm" style="background-color: #2b1b4d">
+<nav class="navbar navbar-expand-md shadow-sm fixed-top" style="background-color: #2b1b4d; z-index: 999">
         <div class="container">
             <a class="navbar-brand" href="/list" style="align-content: center;"><img src="{{ asset('gambar/Logo-GameVerse.png') }}"
             class="img-fluid" alt="Sample image" style="width: 40px; height: 40px"></a>

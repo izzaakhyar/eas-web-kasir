@@ -70,9 +70,9 @@
                                             </td>
                                             <td>{{ $cart->product->name }}</td>
                                             <td>
-                                                <button onclick="decreaseQuantity({{ $cart->product->id }})"><i class="bi bi-dash-square"></i></button>
+
                                                 <span id="quantity_{{ $cart->product->id }}">{{ $cart->quantity }}</span>
-                                                <button onclick="increaseQuantity({{ $cart->product->id }})"><i class="bi bi-plus-square"></i></button>
+
                                             </td>
                                             <td id="price_{{ $cart->product->id }}">Rp {{ number_format($cart->product->price, 0, ',', '.') }}</td>
                                             <td id="totalPrice_{{ $cart->product->id }}">Rp {{ number_format($cart->quantity * $cart->product->price, 0, ',', '.') }}</td>
